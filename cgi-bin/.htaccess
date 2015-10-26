@@ -1,0 +1,15 @@
+    Options +ExecCGI +Indexes +FollowSymLinks +MultiViews +Includes
+#    AllowOverride None
+#    Order allow,deny
+#    allow from all
+    AddHandler cgi-script .py
+    AddHandler cgi-script .cgi
+    AddHandler wsgi-script .wsgi
+    AddHandler default-handler .html .htm
+    AddType text/html .shtml
+    AddHandler server-parsed .html
+    AddHandler server-parsed .shtml
+#    DirectoryIndex index.shtml index.html
+    AddOutputFilter INCLUDES .shtml
+    AddHandler php5-script php
+

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+</script>
+<link rel="stylesheet" type="text/css" href="http://python-gaming.com/pygame/docs/layout.css" />
+
+<!--#include virtual="../../menu/menu.shtml"-->
+</head>
+<body>
+<!--
+<header>
+<h1>pygame.Surface</h1>
+</header>
+-->
+<!--#include virtual="nav.shtml"-->
+<br>
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="sectionwrapper">
+    <h1><tt class="docutils literal"><span class="pre">pygame.BufferProxy</span></tt></h1>
+<div class="section" id="pygame-bufferproxy">
+<dl class="definition class">
+<dt class="title" id="pygame.BufferProxy">
+<em class="property">class </em><tt class="descclassname">pygame.</tt><tt class="descname">BufferProxy</tt><a class="headerlink" href="#pygame.BufferProxy" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">pygame object to export a surface buffer through an array protocol</span></div>
+<div class="line"><span class="signature">BufferProxy(&lt;parent&gt;) -&gt; BufferProxy</span></div>
+</div>
+<table border="1" class="toc docutils">
+<colgroup>
+<col width="28%" />
+<col width="1%" />
+<col width="71%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="toc reference external" href="bufferproxy.html#pygame.BufferProxy.parent">pygame.BufferProxy.parent</a></td>
+<td>-</td>
+<td>Return wrapped exporting object.</td>
+</tr>
+<tr class="row-even"><td><a class="toc reference external" href="bufferproxy.html#pygame.BufferProxy.length">pygame.BufferProxy.length</a></td>
+<td>-</td>
+<td>The size, in bytes, of the exported buffer.</td>
+</tr>
+<tr class="row-odd"><td><a class="toc reference external" href="bufferproxy.html#pygame.BufferProxy.raw">pygame.BufferProxy.raw</a></td>
+<td>-</td>
+<td>A copy of the exported buffer as a single block of bytes.</td>
+</tr>
+<tr class="row-even"><td><a class="toc reference external" href="bufferproxy.html#pygame.BufferProxy.write">pygame.BufferProxy.write</a></td>
+<td>-</td>
+<td>Write raw bytes to object buffer.</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference internal" href="#pygame.BufferProxy" title="pygame.BufferProxy"><tt class="xref py py-class docutils literal"><span class="pre">BufferProxy</span></tt></a> is a Pygame support type, designed as the return value
+of the <a class="reference internal" href="surface.html#pygame.Surface.get_buffer" title="pygame.Surface.get_buffer"><tt class="xref py py-meth docutils literal"><span class="pre">Surface.get_buffer()</span></tt></a> and <a class="reference internal" href="surface.html#pygame.Surface.get_view" title="pygame.Surface.get_view"><tt class="xref py py-meth docutils literal"><span class="pre">Surface.get_view()</span></tt></a> methods.
+For all Python versions a <a class="reference internal" href="#pygame.BufferProxy" title="pygame.BufferProxy"><tt class="xref py py-class docutils literal"><span class="pre">BufferProxy</span></tt></a> object exports a C struct
+and Python level array interface on behalf of its parent object&#8217;s buffer.
+For CPython 2.6 and later a new buffer interface is also exported.
+In Pygame, <a class="reference internal" href="#pygame.BufferProxy" title="pygame.BufferProxy"><tt class="xref py py-class docutils literal"><span class="pre">BufferProxy</span></tt></a> is key to implementing the
+<a class="tooltip reference internal" href="surfarray.html#module-pygame.surfarray" title=""><tt class="xref py py-mod docutils literal"><span class="pre">pygame.surfarray</span></tt><span class="tooltip-content">pygame module for accessing surface pixel data using array interfaces</span></a> module.</p>
+<p><a class="reference internal" href="#pygame.BufferProxy" title="pygame.BufferProxy"><tt class="xref py py-class docutils literal"><span class="pre">BufferProxy</span></tt></a> instances can be created directly from Python code,
+either for a parent that exports an interface, or from a Python <tt class="docutils literal"><span class="pre">dict</span></tt>
+describing an object&#8217;s buffer layout. The dict entries are based on the
+Python level array interface mapping. The following keys are recognized:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">&quot;shape&quot;</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+<dd>The length of each array dimension as a tuple of integers. The
+length of the tuple is the number of dimensions in the array.</dd>
+<dt><tt class="docutils literal"><span class="pre">&quot;typestr&quot;</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd>The array element type as a length 3 string. The first character
+gives byteorder, &#8216;&lt;&#8217; for little-endian, &#8216;&gt;&#8217; for big-endian, and
+&#8216;|&#8217; for not applicable. The second character is the element type,
+&#8216;i&#8217; for signed integer, &#8216;u&#8217; for unsigned integer, &#8216;f&#8217; for floating
+point, and &#8216;V&#8217; for an chunk of bytes. The third character gives the
+bytesize of the element, from &#8216;1&#8217; to &#8216;9&#8217; bytes. So, for example,
+&#8220;&lt;u4&#8221; is an unsigned 4 byte little-endian integer, such as a
+32 bit pixel on a PC, while &#8220;|V3&#8221; would represent a 24 bit pixel,
+which has no integer equivalent.</dd>
+<dt><tt class="docutils literal"><span class="pre">&quot;data&quot;</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+<dd>The physical buffer start address and a read-only flag as a length
+2 tuple. The address is an integer value, while the read-only flag
+is a bool-<tt class="docutils literal"><span class="pre">False</span></tt> for writable, <tt class="docutils literal"><span class="pre">True</span></tt> for read-only.</dd>
+<dt><tt class="docutils literal"><span class="pre">&quot;strides&quot;</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span> <span class="classifier-delimiter">:</span> <span class="classifier">(optional)</span></dt>
+<dd>Array stride information as a tuple of integers. It is required
+only of non C-contiguous arrays. The tuple length must match
+that of <tt class="docutils literal"><span class="pre">&quot;shape&quot;</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">&quot;parent&quot;</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">object</span> <span class="classifier-delimiter">:</span> <span class="classifier">(optional)</span></dt>
+<dd>The exporting object. It can be used to keep the parent object
+alive while its buffer is visible.</dd>
+<dt><tt class="docutils literal"><span class="pre">&quot;before&quot;</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">callable</span> <span class="classifier-delimiter">:</span> <span class="classifier">(optional)</span></dt>
+<dd>Callback invoked when the <a class="reference internal" href="#pygame.BufferProxy" title="pygame.BufferProxy"><tt class="xref py py-class docutils literal"><span class="pre">BufferProxy</span></tt></a> instance
+exports the buffer. The callback is given one argument, the
+<tt class="docutils literal"><span class="pre">&quot;parent&quot;</span></tt> object if given, otherwise <tt class="docutils literal"><span class="pre">None</span></tt>.
+The callback is useful for setting a lock on the parent.</dd>
+<dt><tt class="docutils literal"><span class="pre">&quot;after&quot;</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">callable</span> <span class="classifier-delimiter">:</span> <span class="classifier">(optional)</span></dt>
+<dd>Callback invoked when an exported buffer is released.
+The callback is passed on argument, the <tt class="docutils literal"><span class="pre">&quot;parent&quot;</span></tt> object if given,
+otherwise None. The callback is useful for releasing a lock on the
+parent.</dd>
+</dl>
+</div></blockquote>
+<p>The BufferProxy class supports subclassing, instance variables, and weak
+references.</p>
+<p>New in Pygame 1.8.0, extended in Pygame 1.9.2</p>
+<dl class="definition attribute">
+<dt class="title" id="pygame.BufferProxy.parent">
+<tt class="descname">parent</tt><a class="headerlink" href="#pygame.BufferProxy.parent" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">Return wrapped exporting object.</span></div>
+<div class="line"><span class="signature">parent -&gt; Surface</span></div>
+<div class="line"><span class="signature">parent -&gt; &lt;parent&gt;</span></div>
+</div>
+<p>The <a class="reference internal" href="surface.html#pygame.Surface" title="pygame.Surface"><tt class="xref py py-class docutils literal"><span class="pre">Surface</span></tt></a> which returned the <a class="reference internal" href="#pygame.BufferProxy" title="pygame.BufferProxy"><tt class="xref py py-class docutils literal"><span class="pre">BufferProxy</span></tt></a> object or
+the object passed to a <a class="reference internal" href="#pygame.BufferProxy" title="pygame.BufferProxy"><tt class="xref py py-class docutils literal"><span class="pre">BufferProxy</span></tt></a> call.</p>
+</dd></dl>
+
+<dl class="definition attribute">
+<dt class="title" id="pygame.BufferProxy.length">
+<tt class="descname">length</tt><a class="headerlink" href="#pygame.BufferProxy.length" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">The size, in bytes, of the exported buffer.</span></div>
+<div class="line"><span class="signature">length -&gt; int</span></div>
+</div>
+<p>The number of valid bytes of data exported. For discontinuous data,
+that is data which is not a single block of memory, the bytes within
+the gaps are excluded from the count. This property is equivalent to
+the <tt class="docutils literal"><span class="pre">Py_buffer</span></tt> C struct <tt class="docutils literal"><span class="pre">len</span></tt> field.</p>
+</dd></dl>
+
+<dl class="definition attribute">
+<dt class="title" id="pygame.BufferProxy.raw">
+<tt class="descname">raw</tt><a class="headerlink" href="#pygame.BufferProxy.raw" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">A copy of the exported buffer as a single block of bytes.</span></div>
+<div class="line"><span class="signature">raw -&gt; bytes</span></div>
+</div>
+<p>The buffer data as a <tt class="docutils literal"><span class="pre">str</span></tt>/<tt class="docutils literal"><span class="pre">bytes</span></tt> object.
+Any gaps in the exported data are removed.</p>
+</dd></dl>
+
+<dl class="definition method">
+<dt class="title" id="pygame.BufferProxy.write">
+<tt class="descname">write</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.BufferProxy.write" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">Write raw bytes to object buffer.</span></div>
+<div class="line"><span class="signature">write(buffer, offset=0)</span></div>
+</div>
+<p>Overwrite bytes in the parent object&#8217;s data. The data must be C or F
+contiguous, otherwise a ValueError is raised. Argument <cite>buffer</cite> is a
+<tt class="docutils literal"><span class="pre">str</span></tt>/<tt class="docutils literal"><span class="pre">bytes</span></tt> object. An optional offset gives a
+start position, in bytes, within the buffer where overwriting begins.
+If the offset is negative or greater that or equal to the buffer proxy&#8217;s
+<a class="reference internal" href="#pygame.BufferProxy.length" title="pygame.BufferProxy.length"><tt class="xref py py-attr docutils literal"><span class="pre">length</span></tt></a> value, an <tt class="docutils literal"><span class="pre">IndexException</span></tt> is raised.
+If <tt class="docutils literal"><span class="pre">len(buffer)</span> <span class="pre">&gt;</span> <span class="pre">proxy.length</span> <span class="pre">+</span> <span class="pre">offset</span></tt>, a <tt class="docutils literal"><span class="pre">ValueError</span></tt> is raised.</p>
+</dd></dl>
+
+</dd></dl>
+</div>
+
+<!--#include virtual="foot.shtml"-->
+</body>
+</html>

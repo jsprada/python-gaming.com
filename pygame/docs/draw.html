@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+</script>
+<link rel="stylesheet" type="text/css" href="http://python-gaming.com/pygame/docs/layout.css" />
+
+<!--#include virtual="../../menu/menu.shtml"-->
+</head>
+<body>
+<!--
+<header>
+<h1>pygame.Surface</h1>
+</header>
+-->
+<!--#include virtual="nav.shtml"-->
+<br>
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="sectionwrapper">
+    <h1><tt class="docutils literal"><span class="pre">pygame.draw</span></tt></h1>
+<div class="section" id="module-pygame.draw">
+<span id="pygame-draw"></span><dl class="definition module">
+<dt class="title module">
+<tt class="docutils literal"><span class="pre">pygame.draw</span></tt></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">pygame module for drawing shapes</span></div>
+</div>
+<table border="1" class="toc docutils">
+<colgroup>
+<col width="27%" />
+<col width="1%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="toc reference external" href="draw.html#pygame.draw.rect">pygame.draw.rect</a></td>
+<td>-</td>
+<td>draw a rectangle shape</td>
+</tr>
+<tr class="row-even"><td><a class="toc reference external" href="draw.html#pygame.draw.polygon">pygame.draw.polygon</a></td>
+<td>-</td>
+<td>draw a shape with any number of sides</td>
+</tr>
+<tr class="row-odd"><td><a class="toc reference external" href="draw.html#pygame.draw.circle">pygame.draw.circle</a></td>
+<td>-</td>
+<td>draw a circle around a point</td>
+</tr>
+<tr class="row-even"><td><a class="toc reference external" href="draw.html#pygame.draw.ellipse">pygame.draw.ellipse</a></td>
+<td>-</td>
+<td>draw a round shape inside a rectangle</td>
+</tr>
+<tr class="row-odd"><td><a class="toc reference external" href="draw.html#pygame.draw.arc">pygame.draw.arc</a></td>
+<td>-</td>
+<td>draw a partial section of an ellipse</td>
+</tr>
+<tr class="row-even"><td><a class="toc reference external" href="draw.html#pygame.draw.line">pygame.draw.line</a></td>
+<td>-</td>
+<td>draw a straight line segment</td>
+</tr>
+<tr class="row-odd"><td><a class="toc reference external" href="draw.html#pygame.draw.lines">pygame.draw.lines</a></td>
+<td>-</td>
+<td>draw multiple contiguous line segments</td>
+</tr>
+<tr class="row-even"><td><a class="toc reference external" href="draw.html#pygame.draw.aaline">pygame.draw.aaline</a></td>
+<td>-</td>
+<td>draw fine antialiased lines</td>
+</tr>
+<tr class="row-odd"><td><a class="toc reference external" href="draw.html#pygame.draw.aalines">pygame.draw.aalines</a></td>
+<td>-</td>
+<td>draw a connected sequence of antialiased lines</td>
+</tr>
+</tbody>
+</table>
+<p>Draw several simple shapes to a Surface. These functions will work for
+rendering to any format of Surface. Rendering to hardware Surfaces will be
+slower than regular software Surfaces.</p>
+<p>Most of the functions take a width argument to represent the size of stroke
+around the edge of the shape. If a width of 0 is passed the function will
+actually solid fill the entire shape.</p>
+<p>All the drawing functions respect the clip area for the Surface, and will be
+constrained to that area. The functions return a rectangle representing the
+bounding area of changed pixels.</p>
+<p>Most of the arguments accept a color argument that is an <tt class="docutils literal"><span class="pre">RGB</span></tt> triplet. These
+can also accept an <tt class="docutils literal"><span class="pre">RGBA</span></tt> quadruplet. The alpha value will be written
+directly into the Surface if it contains pixel alphas, but the draw function
+will not draw transparently. The color argument can also be an integer pixel
+value that is already mapped to the Surface&#8217;s pixel format.</p>
+<p>These functions must temporarily lock the Surface they are operating on. Many
+sequential drawing calls can be sped up by locking and unlocking the Surface
+object around the draw calls.</p>
+<dl class="definition function">
+<dt class="title" id="pygame.draw.rect">
+<tt class="descclassname">pygame.draw.</tt><tt class="descname">rect</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.draw.rect" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">draw a rectangle shape</span></div>
+<div class="line"><span class="signature">rect(Surface, color, Rect, width=0) -&gt; Rect</span></div>
+</div>
+<p>Draws a rectangular shape on the Surface. The given Rect is the area of the
+rectangle. The width argument is the thickness to draw the outer edge. If
+width is zero then the rectangle will be filled.</p>
+<p>Keep in mind the <tt class="docutils literal"><span class="pre">Surface.fill()</span></tt> method works just as well for drawing
+filled rectangles. In fact the <tt class="docutils literal"><span class="pre">Surface.fill()</span></tt> can be hardware
+accelerated on some platforms with both software and hardware display modes.</p>
+</dd></dl>
+
+<dl class="definition function">
+<dt class="title" id="pygame.draw.polygon">
+<tt class="descclassname">pygame.draw.</tt><tt class="descname">polygon</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.draw.polygon" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">draw a shape with any number of sides</span></div>
+<div class="line"><span class="signature">polygon(Surface, color, pointlist, width=0) -&gt; Rect</span></div>
+</div>
+<p>Draws a polygonal shape on the Surface. The pointlist argument is the
+vertices of the polygon. The width argument is the thickness to draw the
+outer edge. If width is zero then the polygon will be filled.</p>
+<p>For aapolygon, use aalines with the &#8216;closed&#8217; parameter.</p>
+</dd></dl>
+
+<dl class="definition function">
+<dt class="title" id="pygame.draw.circle">
+<tt class="descclassname">pygame.draw.</tt><tt class="descname">circle</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.draw.circle" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">draw a circle around a point</span></div>
+<div class="line"><span class="signature">circle(Surface, color, pos, radius, width=0) -&gt; Rect</span></div>
+</div>
+<p>Draws a circular shape on the Surface. The pos argument is the center of the
+circle, and radius is the size. The width argument is the thickness to draw
+the outer edge. If width is zero then the circle will be filled.</p>
+</dd></dl>
+
+<dl class="definition function">
+<dt class="title" id="pygame.draw.ellipse">
+<tt class="descclassname">pygame.draw.</tt><tt class="descname">ellipse</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.draw.ellipse" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">draw a round shape inside a rectangle</span></div>
+<div class="line"><span class="signature">ellipse(Surface, color, Rect, width=0) -&gt; Rect</span></div>
+</div>
+<p>Draws an elliptical shape on the Surface. The given rectangle is the area
+that the circle will fill. The width argument is the thickness to draw the
+outer edge. If width is zero then the ellipse will be filled.</p>
+</dd></dl>
+
+<dl class="definition function">
+<dt class="title" id="pygame.draw.arc">
+<tt class="descclassname">pygame.draw.</tt><tt class="descname">arc</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.draw.arc" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">draw a partial section of an ellipse</span></div>
+<div class="line"><span class="signature">arc(Surface, color, Rect, start_angle, stop_angle, width=1) -&gt; Rect</span></div>
+</div>
+<p>Draws an elliptical arc on the Surface. The rect argument is the area that
+the ellipse will fill. The two angle arguments are the initial and final
+angle in radians, with the zero on the right. The width argument is the
+thickness to draw the outer edge.</p>
+</dd></dl>
+
+<dl class="definition function">
+<dt class="title" id="pygame.draw.line">
+<tt class="descclassname">pygame.draw.</tt><tt class="descname">line</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.draw.line" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">draw a straight line segment</span></div>
+<div class="line"><span class="signature">line(Surface, color, start_pos, end_pos, width=1) -&gt; Rect</span></div>
+</div>
+<p>Draw a straight line segment on a Surface. There are no endcaps, the ends
+are squared off for thick lines.</p>
+</dd></dl>
+
+<dl class="definition function">
+<dt class="title" id="pygame.draw.lines">
+<tt class="descclassname">pygame.draw.</tt><tt class="descname">lines</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.draw.lines" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">draw multiple contiguous line segments</span></div>
+<div class="line"><span class="signature">lines(Surface, color, closed, pointlist, width=1) -&gt; Rect</span></div>
+</div>
+<p>Draw a sequence of lines on a Surface. The pointlist argument is a series of
+points that are connected by a line. If the closed argument is true an
+additional line segment is drawn between the first and last points.</p>
+<p>This does not draw any endcaps or miter joints. Lines with sharp corners and
+wide line widths can have improper looking corners.</p>
+</dd></dl>
+
+<dl class="definition function">
+<dt class="title" id="pygame.draw.aaline">
+<tt class="descclassname">pygame.draw.</tt><tt class="descname">aaline</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.draw.aaline" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">draw fine antialiased lines</span></div>
+<div class="line"><span class="signature">aaline(Surface, color, startpos, endpos, blend=1) -&gt; Rect</span></div>
+</div>
+<p>Draws an anti-aliased line on a surface. This will respect the clipping
+rectangle. A bounding box of the affected area is returned as a
+rectangle. If blend is true, the shades will be be blended with existing
+pixel shades instead of overwriting them. This function accepts floating
+point values for the end points.</p>
+</dd></dl>
+
+<dl class="definition function">
+<dt class="title" id="pygame.draw.aalines">
+<tt class="descclassname">pygame.draw.</tt><tt class="descname">aalines</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.draw.aalines" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">draw a connected sequence of antialiased lines</span></div>
+<div class="line"><span class="signature">aalines(Surface, color, closed, pointlist, blend=1) -&gt; Rect</span></div>
+</div>
+<p>Draws a sequence on a surface. You must pass at least two points in the
+sequence of points. The closed argument is a simple Boolean and if true, a
+line will be draw between the first and last points. The Boolean blend
+argument set to true will blend the shades with existing shades instead of
+overwriting them. This function accepts floating point values for the end
+points.</p>
+</dd></dl>
+
+<div class="figure">
+<a class="reference internal image-reference" href="../_images/draw_module_example.png"><img alt="draw module example" src="../_images/draw_module_example.png" /></a>
+<p class="caption">Example code for draw module.</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Import a library of functions called &#39;pygame&#39;</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+ 
+<span class="c"># Initialize the game engine</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+ 
+<span class="c"># Define the colors we will use in RGB format</span>
+<span class="n">BLACK</span> <span class="o">=</span> <span class="p">(</span>  <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">)</span>
+<span class="n">WHITE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+<span class="n">BLUE</span> <span class="o">=</span>  <span class="p">(</span>  <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+<span class="n">GREEN</span> <span class="o">=</span> <span class="p">(</span>  <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span>   <span class="mi">0</span><span class="p">)</span>
+<span class="n">RED</span> <span class="o">=</span>   <span class="p">(</span><span class="mi">255</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">)</span>
+ 
+<span class="c"># Set the height and width of the screen</span>
+<span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">]</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+ 
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s">&quot;Example code for the draw module&quot;</span><span class="p">)</span>
+ 
+<span class="c">#Loop until the user clicks the close button.</span>
+<span class="n">done</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+ 
+<span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+ 
+    <span class="c"># This limits the while loop to a max of 10 times per second.</span>
+    <span class="c"># Leave this out and we will use all CPU we can.</span>
+    <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+     
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span> <span class="c"># User did something</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span> <span class="c"># If user clicked close</span>
+            <span class="n">done</span><span class="o">=</span><span class="bp">True</span> <span class="c"># Flag that we are done so we exit this loop</span>
+ 
+    <span class="c"># All drawing code happens after the for loop and but</span>
+    <span class="c"># inside the main while done==False loop.</span>
+     
+    <span class="c"># Clear the screen and set the screen background</span>
+    <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">WHITE</span><span class="p">)</span>
+ 
+    <span class="c"># Draw on the screen a GREEN line from (0,0) to (50.75) </span>
+    <span class="c"># 5 pixels wide.</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">GREEN</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span><span class="mi">30</span><span class="p">],</span> <span class="mi">5</span><span class="p">)</span>
+ 
+    <span class="c"># Draw on the screen a GREEN line from (0,0) to (50.75) </span>
+    <span class="c"># 5 pixels wide.</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">BLACK</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">90</span><span class="p">],</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="p">[</span><span class="mi">220</span><span class="p">,</span> <span class="mi">30</span><span class="p">]],</span> <span class="mi">5</span><span class="p">)</span>
+    
+    <span class="c"># Draw on the screen a GREEN line from (0,0) to (50.75) </span>
+    <span class="c"># 5 pixels wide.</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">aaline</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">GREEN</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">],[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="bp">True</span><span class="p">)</span>
+
+    <span class="c"># Draw a rectangle outline</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">BLACK</span><span class="p">,</span> <span class="p">[</span><span class="mi">75</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+     
+    <span class="c"># Draw a solid rectangle</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">BLACK</span><span class="p">,</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
+     
+    <span class="c"># Draw an ellipse outline, using a rectangle as the outside boundaries</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">ellipse</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">RED</span><span class="p">,</span> <span class="p">[</span><span class="mi">225</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span> 
+
+    <span class="c"># Draw an solid ellipse, using a rectangle as the outside boundaries</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">ellipse</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">RED</span><span class="p">,</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span> 
+ 
+    <span class="c"># This draws a triangle using the polygon command</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">BLACK</span><span class="p">,</span> <span class="p">[[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">]],</span> <span class="mi">5</span><span class="p">)</span>
+  
+    <span class="c"># Draw an arc as part of an ellipse. </span>
+    <span class="c"># Use radians to determine what angle to draw.</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">arc</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">BLACK</span><span class="p">,[</span><span class="mi">210</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">125</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">arc</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">GREEN</span><span class="p">,[</span><span class="mi">210</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">125</span><span class="p">],</span> <span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">arc</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">BLUE</span><span class="p">,</span> <span class="p">[</span><span class="mi">210</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">125</span><span class="p">],</span> <span class="n">pi</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">arc</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">RED</span><span class="p">,</span>  <span class="p">[</span><span class="mi">210</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">125</span><span class="p">],</span> <span class="mi">3</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    
+    <span class="c"># Draw a circle</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">BLUE</span><span class="p">,</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">250</span><span class="p">],</span> <span class="mi">40</span><span class="p">)</span>
+    
+    <span class="c"># Go ahead and update the screen with what we&#39;ve drawn.</span>
+    <span class="c"># This MUST happen after all the other drawing commands.</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+ 
+<span class="c"># Be IDLE friendly</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+</div>
+
+<!--#include virtual="foot.shtml"-->
+</body>
+</html>

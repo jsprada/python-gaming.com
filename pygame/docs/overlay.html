@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+</script>
+<link rel="stylesheet" type="text/css" href="http://python-gaming.com/pygame/docs/layout.css" />
+
+<!--#include virtual="../../menu/menu.shtml"-->
+</head>
+<body>
+<!--
+<header>
+<h1>pygame.Surface</h1>
+</header>
+-->
+<!--#include virtual="nav.shtml"-->
+<br>
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="sectionwrapper">
+    <h1><tt class="docutils literal"><span class="pre">pygame.Overlay</span></tt></h1>
+<div class="section" id="pygame-overlay">
+<dl class="definition class">
+<dt class="title" id="pygame.Overlay">
+<em class="property">class </em><tt class="descclassname">pygame.</tt><tt class="descname">Overlay</tt><a class="headerlink" href="#pygame.Overlay" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">pygame object for video overlay graphics</span></div>
+<div class="line"><span class="signature">Overlay(format, (width, height)) -&gt; Overlay</span></div>
+</div>
+<table border="1" class="toc docutils">
+<colgroup>
+<col width="35%" />
+<col width="1%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="toc reference external" href="overlay.html#pygame.Overlay.display">pygame.Overlay.display</a></td>
+<td>-</td>
+<td>set the overlay pixel data</td>
+</tr>
+<tr class="row-even"><td><a class="toc reference external" href="overlay.html#pygame.Overlay.set_location">pygame.Overlay.set_location</a></td>
+<td>-</td>
+<td>control where the overlay is displayed</td>
+</tr>
+<tr class="row-odd"><td><a class="toc reference external" href="overlay.html#pygame.Overlay.get_hardware">pygame.Overlay.get_hardware</a></td>
+<td>-</td>
+<td>test if the Overlay is hardware accelerated</td>
+</tr>
+</tbody>
+</table>
+<p>The Overlay objects provide support for accessing hardware video overlays.
+Video overlays do not use standard <tt class="docutils literal"><span class="pre">RGB</span></tt> pixel formats, and can use
+multiple resolutions of data to create a single image.</p>
+<p>The Overlay objects represent lower level access to the display hardware. To
+use the object you must understand the technical details of video overlays.</p>
+<p>The Overlay format determines the type of pixel data used. Not all hardware
+will support all types of overlay formats. Here is a list of available
+format types:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">YV12_OVERLAY</span><span class="p">,</span> <span class="n">IYUV_OVERLAY</span><span class="p">,</span> <span class="n">YUV2_OVERLAY</span><span class="p">,</span> <span class="n">UYVY_OVERLAY</span><span class="p">,</span> <span class="n">YVYU_OVERLAY</span>
+</pre></div>
+</div>
+<p>The width and height arguments control the size for the overlay image data.
+The overlay image can be displayed at any size, not just the resolution of
+the overlay.</p>
+<p>The overlay objects are always visible, and always show above the regular
+display contents.</p>
+<dl class="definition method">
+<dt class="title" id="pygame.Overlay.display">
+<tt class="descname">display</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.Overlay.display" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">set the overlay pixel data</span></div>
+<div class="line"><span class="signature">display((y, u, v)) -&gt; None</span></div>
+<div class="line"><span class="signature">display() -&gt; None</span></div>
+</div>
+<p>Display the yuv data in SDL&#8217;s overlay planes. The y, u, and v arguments
+are strings of binary data. The data must be in the correct format used
+to create the Overlay.</p>
+<p>If no argument is passed in, the Overlay will simply be redrawn with the
+current data. This can be useful when the Overlay is not really hardware
+accelerated.</p>
+<p>The strings are not validated, and improperly sized strings could crash
+the program.</p>
+</dd></dl>
+
+<dl class="definition method">
+<dt class="title" id="pygame.Overlay.set_location">
+<tt class="descname">set_location</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.Overlay.set_location" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">control where the overlay is displayed</span></div>
+<div class="line"><span class="signature">set_location(rect) -&gt; None</span></div>
+</div>
+<p>Set the location for the overlay. The overlay will always be shown
+relative to the main display Surface. This does not actually redraw the
+overlay, it will be updated on the next call to <tt class="docutils literal"><span class="pre">Overlay.display()</span></tt>.</p>
+</dd></dl>
+
+<dl class="definition method">
+<dt class="title" id="pygame.Overlay.get_hardware">
+<tt class="descname">get_hardware</tt><big>(</big><big>)</big><a class="headerlink" href="#pygame.Overlay.get_hardware" title="Permalink to this definition">#</a></dt>
+<dd><div class="line-block">
+<div class="line"><span class="summaryline">test if the Overlay is hardware accelerated</span></div>
+<div class="line"><span class="signature">get_hardware(rect) -&gt; int</span></div>
+</div>
+<p>Returns a True value when the Overlay is hardware accelerated. If the
+platform does not support acceleration, software rendering is used.</p>
+</dd></dl>
+
+</dd></dl>
+</div>
+
+<!--#include virtual="foot.shtml"-->
+</body>
+</html>

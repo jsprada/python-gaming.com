@@ -1,0 +1,141 @@
+span.js_regex   { color: #00A000; }
+
+
+
+/* note the following affect all "C related" (C, C++, Java, Javascript) languages */
+
+span.c_string_escape    { color: #00A080; font-style: italic; }
+
+span.c_string       { color: green; }
+
+span.c_blockcomment { color: gray; font-style: italic; }
+
+span.c_linecomment  { color: gray; font-style: italic; }
+
+span.c_preprocessor { color: #800000; }
+
+span.c_number       { color: orange; }
+
+span.c_symbol       { color: #000080; font-weight: bold; }
+
+span.c_keyword      { color: #8000FF; font-weight: bold; }
+
+span.c_type         { color: #0000FF; font-weight: bold; }
+
+
+
+span.sql_string     { color: green; }
+
+/*span.sql_string_escape    { color: #00A080; font-style: italic; }*/
+
+span.sql_blockcomment   { color: gray; font-style: italic; }
+
+span.sql_linecomment    { color: gray; font-style: italic; }
+
+span.sql_number     { color: orange; }
+
+span.sql_symbol     { color: #000080; font-weight: bold; }
+
+span.sql_keyword        { color: #8000FF; font-weight: bold; }
+
+
+
+span.bat_comment        { color: gray; font-style: italic; }
+
+span.bat_label      { color: #800000; }
+
+span.bat_keyword        { color: #8000FF; font-weight: bold; }
+
+span.bat_var            { color: #A06000; font-weight: bold; }
+
+span.bat_symbol     { color: #FF0000; font-weight: bold; }
+
+
+
+span.php_string     { color: green; }   /* single quotes */
+
+span.php_string_d   { color: green; }   /* double quotes */
+
+span.php_string_h   { color: green; }   /* heredoc */
+
+span.php_string_escape { color: #00A080; font-style: italic; }
+
+span.php_string_code    { color: black; }
+
+span.php_string_var { font-weight: bold; }
+
+span.php_blockcomment   { color: gray; font-style: italic; }
+
+span.php_linecomment    { color: gray; font-style: italic; }
+
+span.php_number     { color: orange; }
+
+span.php_symbol     { color: #000080; font-weight: bold; }
+
+span.php_var            { color: #A06000; }
+
+span.php_keyword        { color: #0000FF; font-weight: bold; }
+
+span.php_tag            { color: red; background: #FFFF80; }
+
+.php_html           { background: #F0F0FF; }
+
+
+
+span.asm_string     { color: green; }
+
+span.asm_string_escape  { color: #00A080; font-style: italic; }
+
+span.asm_comment        { color: gray; font-style: italic; }
+
+span.asm_number     { color: orange; }
+
+span.asm_math       { color: #8000FF; font-weight: bold; }
+
+span.asm_instruct   { color: #0000FF; font-weight: bold; }
+
+span.asm_register   { color: #A06000; font-weight: bold; }
+
+span.asm_directive  { color: #0060A0; }
+
+span.asm_var            { color: #0060A0; font-weight: bold; }
+
+
+
+span.vb_string      { color: green; }
+
+span.vb_comment     { color: gray; font-style: italic; }
+
+span.vb_preprocessor    { color: #800000; }
+
+span.vb_number      { color: orange; }
+
+span.vb_symbol      { color: #000080; font-weight: bold; }
+
+span.vb_keyword     { color: #0000FF; font-weight: bold; }
+
+span.vb_type            { color: #8000FF; font-weight: bold; }
+
+
+
+/* Affects HTML as well */
+
+span.xml_comment        { color: gray; font-style: italic; }
+
+span.xml_cdata      { color: orange; }
+
+span.xml_tag            { color: blue; }
+
+span.xml_escape     { color: #00A080; font-style: italic; }
+
+span.xml_attrib     { color: red; }
+
+span.xml_attribequal    { color: #000080; font-weight: bold; }
+
+span.xml_attribvalue    { color: #8000FF; }
+
+
+
+.html_script        { background: #E0FFE0; }
+
+.html_style         { background: #FFF0E0; }

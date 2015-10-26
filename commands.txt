@@ -1,0 +1,27 @@
+
+#secure copy from local to server
+scp [FILE] [USERNAME]@python-gaming.com:/home/[USERNAME]
+
+#enable includes module for shtml file and header includes
+sudo a2enmod include
+
+#restart apache
+sudo service apache2 restart
+
+#restart postfix
+sudo /etc/init.d/postfix restart
+
+#apache config file
+sudo vim /etc/apache2/apache2.conf 
+
+#email log
+sudo tail -f /var/log/mail.log
+
+#apache error log
+tail -f  /var/log/apache2/error.log
+
+#change from root to user
+su - USERNAME
+
+#access logs
+tail -f /var/log/apache2/access.log

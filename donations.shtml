@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<!--#include virtual="menu/menu.shtml"-->
+
+<head>
+<style>
+table {
+        width:50%;
+}
+table, th, td {
+        border: 1px solid black;
+            border-collapse: collapse;
+}
+th, td {
+        padding: 5px;
+            text-align: left;
+}
+table#t01 tr:nth-child(even) {
+        background-color: #eee;
+}
+table#t01 tr:nth-child(odd) {
+       background-color:#fff;
+}
+table#t01 th    {
+        background-color: black;
+            color: white;
+}
+</style>
+</head>
+<body>
+
+
+
+<br>
+<center>
+    <br><br><br>
+    <p>
+        We would like to thank our donors for making this site possible. 
+    </p>
+    <h2>Donors</h2>
+<table id="t01">
+    <tr>
+        <th>User</th>
+        <th>Date</th>     
+        <th>Amount</th>
+    </tr>
+    <tr>
+        <td>iminurnamez</td>
+        <td>10/11/2015</td>       
+        <td>$10</td>
+    </tr>
+    <tr>
+        <td>Atari65xe</td>
+        <td>10/03/2015</td>       
+        <td>$30</td>
+    </tr>
+
+</table>
+<br><br><br><br>
+
+        If you wish to support financially, please donate via button below. <br>
+        The site costs to be up. We could use your support and every little bit helps <br>
+                If you wish to remain anonymous, please say so in the note section.
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_donations">
+                    <input type="hidden" name="business" value="micahpage911@yahoo.com">
+                    <input type="hidden" name="lc" value="US">
+                    <input type="hidden" name="item_name" value="for server/domain/etc costs for python-gaming. com">
+                    <input type="hidden" name="currency_code" value="USD">
+                    <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>
+
+
+</center>
+
+</body>
+</html>
