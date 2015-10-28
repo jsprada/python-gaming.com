@@ -11,6 +11,15 @@
           </li>
         </ul>
       </li>
+      <li>
+        <a href="#">Download  <span class="arrow">&#9660;</span></a>
+        <ul class="sub-menu">
+          <li><a href="http://python-gaming.com/pygame/downloads.html"><span class="arrow">&#9658;</span>  Pygame</a>
+          </li>
+        </ul>
+      </li>
+
+      <!--
       <li><a href="#">Downloads  <span class="arrow">&#9660;</span></a>
         <ul class="sub-menu">
           <li><a href="https://bitbucket.org/pygame/pygame/downloads"><span class="arrow">&#9658;</span>  BitBucket</a>
@@ -21,6 +30,7 @@
           </li>
         </ul>
       </li>
+      -->
       <li><a href="http://python-gaming.com/forums/">Forums</a></li>
       <li><a href="http://python-gaming.com/blog/wordpress">Projects</a></li>
 
