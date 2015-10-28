@@ -14,7 +14,7 @@
 
 <div class="page_content">
 
-<h4>Install Pygame with latest BitBucket</h4>
+<h2>Install latest Pygame with Mercurial</h2>
 <p>
 Install Mercurial on your platform. The first code box below is the method for Ubuntu Linux. Mercurial binaries for your platform can be found <a href="https://www.mercurial-scm.org/wiki/Download">here</a>.
 </p>
@@ -61,7 +61,7 @@ The fact that a second prompt >>> came up means pygame was imported successfully
 
 This method installs the latest bitbucket repo, including its last merge. So it the best way to get the latest pygame as they add bug-fixes, but that could also be a method of obtaining an untracked bug. 
 
-<h4>BitBucket Releases</h4>
+<h3>BitBucket Releases</h3>
 If this fails, you can try to <a href="https://bitbucket.org/pygame/pygame/downloads">download a release</a> instead. This includes msi easy installers for Windows and zips. 
 Extract the zip and change directory into it, and execute setup.py install command as said before. 
 <br><br>
@@ -70,14 +70,27 @@ Make sure you download the same pygame version for your python version as well a
 Sometimes you will have to install a slightly lower version of python to get the latest pygame, until things have been updated. This is not a big deal as minor python versions do not have much changes.   
 
 
-<h4>Install Wheels on Windows</h4>
+<h2>Install Pygame with Wheels (.whl files)</h2>
 <p>
-pip is included with python from Python 2.7.9+ and Python 3.4+. So if you have older than these you have to <a href="http://pip.readthedocs.org/en/stable/installing/">install</a> pip. Change FILE.whl to the path and name of the wheel for your python version that you downloaded. 
+pip is included with python from Python 2.7.9+ and Python 3.4+. So if you have older than these you have to <a href="http://pip.readthedocs.org/en/stable/installing/">install</a> pip. Change &lt;FILE.whl&gt; to the path and name of the wheel for your python version that you downloaded. 
 Navigate to your python directory and execute the following command. 
 </p>
-<textarea readonly class="codebox_stretch" rows="1">
+<textarea readonly class="codeboxsized" rows="1">
     python -m pip install <FILE.whl>
 </textarea>
+
+
+<h2>Install Pygame with setup.py file</h2>
+<p>
+Unzip pygame and change directory to newly created pygame directory. Execute the following command to install. 
+</p>
+<textarea readonly class="codeboxsized" rows="1">
+    python setup.py install
+</textarea>
+
+
+
+
 <h2>Pygame Installation</h2>
 <div class="h2">
 
