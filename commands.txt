@@ -1,6 +1,9 @@
 
 #secure copy from local to server
-scp [FILE] [USERNAME]@python-gaming.com:/home/[USERNAME]
+scp [FILE] [SERVER_USERNAME]@python-gaming.com:/home/[USERNAME]
+
+#secure copy from server to local
+scp [FILE] [SERVER_USERNAME]@python-gaming.com:/[SERVER_FILEPATH] [LOCAL_FILEPATH]
 
 #enable includes module for shtml file and header includes
 sudo a2enmod include

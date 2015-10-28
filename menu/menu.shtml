@@ -5,7 +5,7 @@
       <li><a href="/">Home</a>
       </li>
       <li>
-        <a href="">Documentation  <span class="arrow">&#9660;</span></a>
+        <a href="#">Documentation  <span class="arrow">&#9660;</span></a>
         <ul class="sub-menu">
           <li><a href="http://python-gaming.com/pygame/docs/index.html"><span class="arrow">&#9658;</span>  Pygame</a>
           </li>
