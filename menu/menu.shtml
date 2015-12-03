@@ -2,8 +2,8 @@
 <div class="menu-wrap">
   <nav class="menu">
     <ul>
-      <li><a href="/">Home</a>
-      </li>
+      <!--<li><a href="/">Home</a>
+      </li>-->
       <li>
         <a href="#">Documentation  <span class="arrow">&#9660;</span></a>
         <ul class="sub-menu">
@@ -33,6 +33,15 @@
       -->
       <li><a href="http://python-gaming.com/forums/">Forums</a></li>
       <li><a href="http://python-gaming.com/blog/wordpress">Projects</a></li>
+      <li>
+        <a href="#">Other  <span class="arrow">&#9660;</span></a>
+        <ul class="sub-menu">
+            
+          <li><a href="https://github.com/metulburr/python-gaming.com"><span class="arrow">&#9658;</span>  Website Repo</a>
+          <li><a href="http://python-gaming.com/donations.shtml"><span class="arrow">&#9658;</span>  Donors</a>
+          </li>
+        </ul>
+      </li>
 
     </ul>
   </nav>
