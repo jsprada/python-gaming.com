@@ -22,6 +22,8 @@ Only so much testing can be done by admins. And users may see things differently
 #####Additions
 Currently, only pygame exists. Other libraries need to be filled in. Any GUI that makes a game in Python is welcome here. 
 
-
+#####Financial
+The server is under Digital Ocean and cost $120/annually to be up and running. The domain name cost about $15/annually. These costs are currently covered for the first year, but after still needs support. Otherwise the site could not exist. Any donations can be given via [paypal donations](http://python-gaming.com/donations.shtml) to the user metulburr of whom the digital ocean account the site is under. All donors get added to the donor wall. If you wish to remain anonymous,
+describe so in the note section of paypal donation. 
 
 
