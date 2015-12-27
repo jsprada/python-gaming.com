@@ -14,10 +14,10 @@ You can help the project in numerous ways. Post an issue of your problem/error/m
 #####Testing
 Only so much testing can be done by admins. And users may see things differently than the creators of the page. 
 
-1) Check for typos in documentation, missing docs, or additions that should be added. Is anything out of the ordinary?<br>
+1) Check for typos in documentation, missing docs, or additions that should be added. Is anything out of the ordinary? Are there examples that are needed where there is not? <br>
 2) Create project pages and ensure that you have the tools you need to showcase your games. Check that everything works and that you can do so at ease. <br>
 3) Review the Forums and ensure that everything is available that you feel is needed. <br>
-4) 
+4) Test the site under different conditions. Different browsers may cause problems, mobile platforms may cause some.  
 
 #####Additions
 Currently, only pygame exists. Other libraries need to be filled in. Any GUI that makes a game in Python is welcome here. 
