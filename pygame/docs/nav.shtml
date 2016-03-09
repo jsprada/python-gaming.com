@@ -2,50 +2,50 @@
     <b>Core classes/modules:</b>
     <hr>
     <p class="menu_links">
-        <a href="color.html">Color<a/><br>
-        <a href="cursors.html">cursors<a/><br>
-        <a href="display.html">display<a/><br>
-        <a href="draw.html">draw<a/><br>
-        <a href="event.html">event<a/><br>
-        <a href="font.html">font<a/><br>
-        <a href="image.html">image<a/><br>
-        <a href="joystick.html">joystick<a/><br>
-        <a href="key.html">key<a/><br>
-        <a href="locals.html">locals<a/><br>
-        <a href="mask.html">mask<a/><br>
-        <a href="mixer.html">mixer<a/><br>
-        <a href="mouse.html">mouse<a/><br>
-        <a href="music.html">music<a/><br>
-        <a href="pygame.html">pygame<a/><br>
-        <a href="rect.html">Rect<a/><br>
-        <a href="surface.html">Surface<a/><br>
-        <a href="sprite.html">sprite<a/><br>
-        <a href="time.html">time<a/><br>
-        <a href="transform.html">transform<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/color.html">Color<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/cursors.html">cursors<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/display.html">display<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/draw.html">draw<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/event.html">event<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/font.html">font<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/image.html">image<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/joystick.html">joystick<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/key.html">key<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/locals.html">locals<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/mask.html">mask<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/mixer.html">mixer<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/mouse.html">mouse<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/music.html">music<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/pygame.html">pygame<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/rect.html">Rect<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/surface.html">Surface<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/sprite.html">sprite<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/time.html">time<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/transform.html">transform<a/><br>
     </p>
     <br>
     <b>Advanced:</b>
     <hr>
     <p class="menu_links">
-        <a href="bufferproxy.html">BufferProxy<a/><br>
-        <a href="freetype.html">freetype<a/><br>
-        <a href="gfxdraw.html">gfxdraw<a/><br>
-        <a href="midi.html">midi<a/><br>
-        <a href="overlay.html">Overlay<a/><br>
-        <a href="pixelarray.html">PixelArray<a/><br>
-        <a href="pixelcopy.html">pixelcopy<a/><br>
-        <a href="sndarray.html">sndarray<a/><br>
-        <a href="surfarray.html">surfarray<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/bufferproxy.html">BufferProxy<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/freetype.html">freetype<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/gfxdraw.html">gfxdraw<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/midi.html">midi<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/overlay.html">Overlay<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/pixelarray.html">PixelArray<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/pixelcopy.html">pixelcopy<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/sndarray.html">sndarray<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/surfarray.html">surfarray<a/><br>
     </p>
     <br>
     <b>Experimental/Broken:</b>
     <hr>
     <p class="menu_links">
-        <a href="camera.html">camera<a/><br>
-        <a href="cdrom.html">cdrom<a/><br>
-        <a href="math.html">math<a/><br>
-        <a href="movie.html">movie<a/><br>
-        <a href="scrap.html">scrap<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/camera.html">camera<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/cdrom.html">cdrom<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/math.html">math<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/movie.html">movie<a/><br>
+        <a href="http://python-gaming.com/pygame/docs/scrap.html">scrap<a/><br>
         <br>
         <br>
         <br>

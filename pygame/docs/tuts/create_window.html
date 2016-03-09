@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+</script>
+<link rel="stylesheet" href="_static/pygame.css" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="http://python-gaming.com/pygame/docs/layout.css" />
+<!--#include virtual="../../../menu/menu.shtml"-->
+<!--#include virtual="../../../highlighter.html"-->
+
+
+</head>
+<body>
+<!--#include virtual="../nav.shtml"-->
+
+<div class="sectionwrapper">
+<br>
+
+<center>
+<h3>Creating a Pygame Window</h3>
+</center>
+
+<pre class="brush: python">
+import pygame as pg
+pg.init()
+</pre>
+
+<p>
+Here we import pygame library and name it pg. The reason for pg is preference for not typing out as many characters while also avoiding star imports. We initialize pygame with pg.init().
+</p>
+
+<pre class="brush: python">
+screen = pg.display.set_mode((800,600))
+</pre>
+
+<p>
+Here is the line that we actually create our window and set it's size. The tuple (800,600) sets our window to be 800 pixels wide by 600 pixels tall.
+</p>
+
+
+<pre class="brush: python">
+done = False
+while not done:
+</pre>
+
+<p>
+We create a boolean variable "done" and set it to False. This is what we are going to use to close the game. We create the main game loop. While not False is a double negative and is basically just while True. When done is set to True, the loop will end, and the game will close. While not True.
+</p>
+<pre class="brush: python">
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            done = True
+</pre>
+
+<p>
+This is our event loop. It catches any key presses, or other events. In this case it is only catching the click of the X, when you close out the window. Without this you would have to force close the window. We loop pygame.event.get() which is events from the queue. And if the event type is the window X button or (pg.QUIT), then set done to True. Which close the window.   
+</p>
+<pre class="brush: python">
+    pg.display.update()
+</pre>
+
+<p>
+Finally, we have our display update. This updates the entire screen. 
+</p>
+
+
+
+<pre class="brush: python; title:'Code'">
+import pygame as pg
+
+pg.init()
+screen = pg.display.set_mode((800,600))
+done = False
+while not done:
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            done = True
+            
+    pg.display.update()
+</pre>
+
+<p>
+If you run this, you should get a black window 800 by 600 pixels. It should be able to close out via the x button. And that is about it. 
+</p>
+
+<center>
+<h3>
+    Window Modifications
+</h3>
+</center>
+
+<pre class="brush: python">
+screen = pg.display.set_mode((800,600), pg.RESIZABLE)
+</pre>
+
+<p>
+You can set argument flags to set_mode() that allow what type of display you want. By just adding pg.RESIZABLE flag you can allow the user to resize the window at their will. The different types of flags can be seen <a href="http://python-gaming.com/pygame/docs/display.html#pygame.display.set_mode">here.
+</a>
+
+<pre class="brush: python">
+import os
+os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(100,200)
+</pre>
+
+<p>
+By adding this segment above in the example you can set the position at which the window first is created at. In this case the top left of the window will be at 100x200 pixels from the top left of the monitor. These values must be a single string and the values separated with a comma. 
+</p>
+
+<pre class="brush: python">
+import os
+os.environ['SDL_VIDEO_CENTERED'] = "True"
+</pre>
+
+<p>
+You can also set the window to be centered in the smack center of your monitor. This value must be a string of the bloolean True or False. 
+</p>
+
+<p>
+All os.environ values must be set BEFORE you create the window via set_mode.
+</p>
+
+<pre class="brush: python; title:'Code'">
+import pygame as pg
+import os
+
+pg.init()
+
+os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(100,200)
+screen = pg.display.set_mode((800,600), pg.RESIZABLE)
+done = False
+while not done:
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            done = True
+            
+    pg.display.update()
+</pre>
+
+<!--#include virtual="../foot.shtml"-->
+</div>
+
+
+
+
+
+
+
+</body>
+</html>
