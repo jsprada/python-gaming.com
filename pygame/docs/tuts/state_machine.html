@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+</script>
+<link rel="stylesheet" href="_static/pygame.css" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="http://python-gaming.com/pygame/docs/layout.css" />
+<!--#include virtual="../../../menu/menu.shtml"-->
+<!--#include virtual="../../../highlighter.html"-->
+
+
+</head>
+<body>
+<!--#include virtual="../nav.shtml"-->
+
+<div class="sectionwrapper">
+<br>
+
+<center>
+    <h3>
+        Creating a state machine
+
+    </h3>
+</center>
+
+<p>
+A state (or screen, scene, etc.) machine, is a way to handle different scenes of the game, and flip between them. A good example of multiple states would be...splash screen, title screen, game screen, credit screen, menu screen, level screen, etc. There are two ways of doing this. One is creating a separate while loop for each state. This is NOT how you should be doing it. This will cause spaghetti code and make you pull your hair out later as your game gets larger as you add more and more. The other way is by using inheritance of classes. Which is exactly what will be used in this tutorial.
+</p>
+
+
+
+<pre class="brush: python; title: 'Code'">
+
+import pygame as pg
+import sys
+
+class States(object):
+    def __init__(self):
+        self.done = False
+        self.next = None
+        self.quit = False
+        self.previous = None
+
+class Menu(States):
+    def __init__(self):
+        States.__init__(self)
+        self.next = 'game'
+    def cleanup(self):
+        print('cleaning up Menu state stuff')
+    def startup(self):
+        print('starting Menu state stuff')
+    def get_event(self, event):
+        if event.type == pg.KEYDOWN:
+            print('Menu State keydown')
+        elif event.type == pg.MOUSEBUTTONDOWN:
+            self.done = True
+    def update(self, screen, dt):
+        self.draw(screen)
+    def draw(self, screen):
+        screen.fill((255,0,0))
+
+class Game(States):
+    def __init__(self):
+        States.__init__(self)
+        self.next = 'menu'
+    def cleanup(self):
+        print('cleaning up Game state stuff')
+    def startup(self):
+        print('starting Game state stuff')
+    def get_event(self, event):
+        if event.type == pg.KEYDOWN:
+            print('Game State keydown')
+        elif event.type == pg.MOUSEBUTTONDOWN:
+            self.done = True
+    def update(self, screen, dt):
+        self.draw(screen)
+    def draw(self, screen):
+        screen.fill((0,0,255))
+
+class Control:
+    def __init__(self, **settings):
+        self.__dict__.update(settings)
+        self.done = False
+        self.screen = pg.display.set_mode(self.size)
+        self.clock = pg.time.Clock()
+    def setup_states(self, state_dict, start_state):
+        self.state_dict = state_dict
+        self.state_name = start_state
+        self.state = self.state_dict[self.state_name]
+    def flip_state(self):
+        self.state.done = False
+        previous,self.state_name = self.state_name, self.state.next
+        self.state.cleanup()
+        self.state = self.state_dict[self.state_name]
+        self.state.startup()
+        self.state.previous = previous
+    def update(self, dt):
+        if self.state.quit:
+            self.done = True
+        elif self.state.done:
+            self.flip_state()
+        self.state.update(self.screen, dt)
+    def event_loop(self):
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                self.done = True
+            self.state.get_event(event)
+    def main_game_loop(self):
+        while not self.done:
+            delta_time = self.clock.tick(self.fps)/1000.0
+            self.event_loop()
+            self.update(delta_time)
+            pg.display.update()
+
+
+settings = {
+    'size':(600,400),
+    'fps' :60
+}
+
+app = Control(**settings)
+state_dict = {
+    'menu': Menu(),
+    'game': Game()
+}
+app.setup_states(state_dict, 'menu')
+app.main_game_loop()
+pg.quit()
+sys.exit()
+</pre>
+
+<p>
+So this is the entire code snippet. It might look daunting but if you break it down class by class, it is more easier to understand. So we have 4 classes in total. Control, Game, Menu, and States. 
+
+<br><br>States class is the super class of all states. Any data that you wish to persist between all states would go in here. And logic that persists between all states would go in here, as opposed to each sub class
+
+<br><br>Menu and Game states are sub classes of States. These are the actual states. You can have as many of these as you wish. These of themselves can even be super classes of a sub-sub class state, and so on. The possibilites are endless. The "current" state that is active has control. So what is rendered on the active state gets drawn. The same for update, and their event methods. 
+
+<<br><br>Control does not have to be a class. It could in fact be in the global scope with the rest. But to keep things organized it is in a class. There will never be more than one Control object though. Control is named control because it controls the entire program. The main game loop is in it, the main update is in it, and the main event loop is in it. Control switches between the states. 
+
+<pre class="brush: python">
+settings = {
+    'size':(600,400),
+    'fps' :60
+}
+ 
+app = Control(**settings)
+state_dict = {
+    'menu': Menu(),
+    'game': Game()
+}
+app.setup_states(state_dict, 'menu')
+app.main_game_loop()
+</pre>
+
+The program starts off by creating a dictionary of settings. This gets passed in Control class. Control creates the app object. Then each state (Menu and Game) object get assigned to a dictionary. This allows Control to be able to switch to and from any state as needed. After that setup_states is called, and sets the initial state of the program. Control.state becomes the active state's object here, as Menu's object or Games object. But initially set as menu. And finally the main game loop gets called. From this point on the whole game is constantly just looping Control.main_game_loop(). This IS the main game loop, thus its name.  
+
+<pre class="brush: python">
+    def main_game_loop(self):
+        while not self.done:
+            delta_time = self.clock.tick(self.fps)/1000.0
+            self.event_loop()
+            self.update(delta_time)
+            pg.display.update()
+</pre>
+In the main game loop, the if clause checks to close the program or not. Then we get the delta time. This is not used in this example, but i put it in here to show how to pass it from the main game loop to each state, where you need to use it later. Next it runs the main event loop. This loops through the event queue, checks for game quit, and runs the active state method get_event() while passing the event to it. This happens for EACH event. At this point Menu.get_event is what is being ran. This is because menu is the intial set state. And that is Control.state is Menu() object. Menu.get_event get passed each event and handles it as needed. It checks for a keydown and a mouse button down event. If the event is a mouse button down, it sets Menu.done to True. This in turn allows Control.update to pass the if clause for state.done, executing Control.flip_state on the next frame. Next the main update method gets called. This method checks for quit, and checks for if the state is done. It then execute the states update method. This would be Menu.update. After that, it runs pygame.dispaly.update() to update the screen every frame. And it just keeps looping over and over again. 
+</p>
+<pre class="brush: python">
+    def flip_state(self):
+        self.state.done = False
+        previous,self.state_name = self.state_name, self.state.next
+        self.state.cleanup()
+        self.state = self.state_dict[self.state_name]
+        self.state.startup()
+        self.state.previous = previous
+</pre>
+<p>
+Control.flip_state actually flips the state to the next state. Each state has a next attribute which defines the next state to switch to. flip_state runs the states cleanup method, sets this next state to the current active state, runs the new active states startup method, and sets the previous method.   
+</p>
+
+<p>
+Only the active state (Control.state) will run its methods. So you can keep your menu draw, menu updates, and menu event checks inside the Menu class. The same for Game...or any other state. This clumps the related code together in each states class. So if you need to modify something for your menu, it will be in Menu class. If you need to modify something for your game, it will be in your Game class. With just these two classes, it looks more work than it is worth. But when you have tons and tons of states, this makes it easy to find your code you are looking for. Its organized and structured. Usually each state will be in a different module. And states would be grouped together in the same directory. 
+</p>
+<br>
+
+
+<!--#include virtual="../foot.shtml"-->
+</div>
+
+
+
+
+
+
+
+</body>
+</html>

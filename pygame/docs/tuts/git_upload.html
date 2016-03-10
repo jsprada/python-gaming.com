@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+</script>
+<link rel="stylesheet" href="_static/pygame.css" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="http://python-gaming.com/pygame/docs/layout.css" />
+<!--#include virtual="../../../menu/menu.shtml"-->
+<!--#include virtual="../../../highlighter.html"-->
+
+
+</head>
+<body>
+<!--#include virtual="../nav.shtml"-->
+
+<div class="sectionwrapper">
+
+    <center>
+        <h3>
+            Simple git upload
+        </h3>
+    </center>
+
+<br>
+There are sites that you can upload your code to where people can look, upload fixes, comment on, and download your code. It makes it easier for everyone. Using weird, unknown, or massive spammy/advertisement sites to house your code turns people off from downloading it altogether. However if your code is housed in a place like github, for example, people are more apt to look/download it.
+<br><br>
+There are 3 main sites that do pretty much the same thing, the choice is up to you which you prefer:
+I cant say much for <a href="http://code.google.com/">Google Code</a> as i havent used it at all. <a href="https://bitbucket.org/">BitBucket</a> has free private repos if you dont want people to have access to it, but you have to pay to have more contributors. And then there is <a href="https://github.com/">Github</a>, which is has free public repos, and you can have as many contributors on it as you want, but you have to pay for private repos. 
+<br><br>
+Either way its a learning curve, but its worth it if you plan to upload a lot of code. You have to google questions, and how-to's. <a href="http://try.github.io/levels/1/challenges/1">This</a> will help teach some basics with git and github. The benefits however are awesome. You can upload your code for the ease of working with other programmers. Large amounts of people can work together. Others may make a comment on how to better your code, along with the code that they suggest. If you jump
+between numerous computers a lot, you can easily transfer project/files to and from any of them via your repos. Any change is saved in history, so if 6 months later you decide you want to use that one code you had, but you deleted that file, you can go back and still see the file contents and retrieve it.
+<br><br>
+Assuming you created an account at github, here is a quick tutorial on uploading your first repo. 
+<br><br>1) first we need code to upload, which could be your code, or could be something as simple a text file with nothing in it. 
+<pre class="brush: plain">
+metulburr@ubuntu:~/repos/test$ touch test.txt
+metulburr@ubuntu:~/repos/test$ ls
+test.txt
+metulburr@ubuntu:~/repos/test$ 
+</pre>
+ok now we have a file called test.txt. It doesnt have anything on it, but that doesnt matter.
+<br><br>2) now we need to initialize git because this is a new directory that never had a .git in it before. 
+<pre class="brush: plain">
+metulburr@ubuntu:~/repos/test$ git init
+Initialized empty Git repository in /home/metulburr/repos/test/.git/
+metulburr@ubuntu:~/repos/test$
+</pre>
+
+<br>3) now we need to connect this directory with a git repo on github. Go onto the github.com, and click new repo, make a repo name (can be anything), now click create repo. It will list off a series of commands you need to make too. You will see a second url bar containing something like the address https://github.com/metulburr/test.git in it where my name of repo was "test", copy it to your clipboard. now go back to your terminal
+<br><br>3) in the terminal, input:
+<pre class="brush: plain">
+git remote add origin https://github.com/metulburr/test.git
+</pre>
+
+and replace the url path with whatever yours is. Now this directory is connected to your git on the site.
+<br><br>4) now we add the files to upload
+<pre class="brush: plain">
+metulburr@ubuntu:~/repos/test$ git add test.txt
+metulburr@ubuntu:~/repos/test$
+</pre>
+
+5) now we comment (which must be done)
+<pre class="brush: plain">
+metulburr@ubuntu:~/repos/test$ git commit -m "first commit"
+[master (root-commit) 5f2c638] first commit
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+  create mode 100644 test.txt
+  metulburr@ubuntu:~/repos/test$ 
+</pre>
+
+  6) now we finally upload the file to the repo on the site:
+<pre class="brush: plain">
+metulburr@ubuntu:~/repos/test$ git push origin master
+</pre>
+
+  Depending on how you set up git or created a .netrc file with authentication in it, etc. You may also at this point have to insert your username and password that is associated with your github account. 
+  and there you should see the test.txt file in your new repo.
+  <br><br>
+  This was very cut and dry. There are a ton of things you can do, and i only named off the requirements to upload, there is more if you want to change the code you already put up, etc. etc.
+  <br><br>
+  For those that want to ease the method of converting to github, if your on windows or mac, there is a GUI tool to help push/pull repos:
+  <br>
+  <a href="http://windows.github.com/">Github Desktop</a>
+  <br><br>
+<a href="https://asciinema.org/a/8425">Ascii Text Video of this process<a/>
+        <br>
+
+
+<!--#include virtual="../foot.shtml"-->
+</div>
+
+
+
+
+
+
+
+</body>
+</html>

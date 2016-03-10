@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+</script>
+<link rel="stylesheet" href="_static/pygame.css" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="http://python-gaming.com/pygame/docs/layout.css" />
+<!--#include virtual="../../../menu/menu.shtml"-->
+<!--#include virtual="../../../highlighter.html"-->
+
+
+</head>
+<body>
+<!--#include virtual="../nav.shtml"-->
+
+<div class="sectionwrapper">
+<br>
+
+
+<center><h3>Avoiding Star imports</h3></center>
+<p>
+This is a tutorial of what not to do. Why not to do it, and what to use instead.
+
+<br><br>
+<b>What not to use:</b> (this is the most widely used examples)
+
+<pre class="brush: python">
+from pygame import *
+from pygame.locals import *
+
+from tkinter import *
+from Tkinter import *
+
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+</pre>
+
+<p>
+This is an example of one module overwriting another module.
+Let's say you are writing a pygame program. The only thing you are importing is pygame. So you use 
+</p>
+
+<pre class="brush: python">
+from pygame import *
+</pre>
+Now farther down the line as you are programming, let's say you want to use the time module.
+
+<pre class="brush: python">
+metulburr@ubuntu:~$ python3
+Python 3.3.1 (default, Apr 17 2013, 22:30:32) 
+[GCC 4.7.3] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> rect
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'rect' is not defined
+>>> time
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'time' is not defined
+>>> from pygame import *
+>>> rect
+<module 'pygame.rect' from '/usr/local/lib/python3.3/dist-packages/pygame/rect.cpython-33m.so'>
+>>> time
+<module 'pygame.time' from '/usr/local/lib/python3.3/dist-packages/pygame/time.cpython-33m.so'>
+>>> import time
+>>> time
+<module 'time' (built-in)>
+>>> pygame.time
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'pygame' is not defined
+>>> 
+</pre>
+
+At this point there is no way to access pygame.time as you have written over it with the time module. <b>time</b> now refers to the time module not pygame's time. Throughout your program you also will have a ton of names, that you dont know which module it came from. This is the massive list you put into the namespace:
+<pre class="brush: python">
+>>> dir()
+['ACTIVEEVENT', 'ANYFORMAT', 'ASYNCBLIT', 'AUDIO_S16', 'AUDIO_S16LSB', 'AUDIO_S16MSB', 'AUDIO_S16SYS', 'AUDIO_S8', 'AUDIO_U16', 'AUDIO_U16LSB', 'AUDIO_U16MSB', 'AUDIO_U16SYS', 'AUDIO_U8', 'BIG_ENDIAN', 'BLEND_ADD', 'BLEND_MAX', 'BLEND_MIN', 'BLEND_MULT', 'BLEND_PREMULTIPLIED', 'BLEND_RGBA_ADD', 'BLEND_RGBA_MAX', 'BLEND_RGBA_MIN', 'BLEND_RGBA_MULT', 'BLEND_RGBA_SUB', 'BLEND_RGB_ADD', 'BLEND_RGB_MAX', 'BLEND_RGB_MIN', 'BLEND_RGB_MULT', 'BLEND_RGB_SUB', 'BLEND_SUB', 'BUTTON_X1', 'BUTTON_X2', 'Color', 'DOUBLEBUF', 'FULLSCREEN', 'GL_ACCELERATED_VISUAL', 'GL_ACCUM_ALPHA_SIZE', 'GL_ACCUM_BLUE_SIZE', 'GL_ACCUM_GREEN_SIZE', 'GL_ACCUM_RED_SIZE', 'GL_ALPHA_SIZE', 'GL_BLUE_SIZE', 'GL_BUFFER_SIZE', 'GL_DEPTH_SIZE', 'GL_DOUBLEBUFFER', 'GL_GREEN_SIZE', 'GL_MULTISAMPLEBUFFERS', 'GL_MULTISAMPLESAMPLES', 'GL_RED_SIZE', 'GL_STENCIL_SIZE', 'GL_STEREO', 'GL_SWAP_CONTROL', 'HAT_CENTERED', 'HAT_DOWN', 'HAT_LEFT', 'HAT_LEFTDOWN', 'HAT_LEFTUP', 'HAT_RIGHT', 'HAT_RIGHTDOWN', 'HAT_RIGHTUP', 'HAT_UP', 'HWACCEL', 'HWPALETTE', 'HWSURFACE', 'IYUV_OVERLAY', 'JOYAXISMOTION', 'JOYBALLMOTION', 'JOYBUTTONDOWN', 'JOYBUTTONUP', 'JOYHATMOTION', 'KEYDOWN', 'KEYUP', 'KMOD_ALT', 'KMOD_CAPS', 'KMOD_CTRL', 'KMOD_LALT', 'KMOD_LCTRL', 'KMOD_LMETA', 'KMOD_LSHIFT', 'KMOD_META', 'KMOD_MODE', 'KMOD_NONE', 'KMOD_NUM', 'KMOD_RALT', 'KMOD_RCTRL', 'KMOD_RMETA', 'KMOD_RSHIFT', 'KMOD_SHIFT', 'K_0', 'K_1', 'K_2', 'K_3', 'K_4', 'K_5', 'K_6', 'K_7', 'K_8', 'K_9', 'K_AMPERSAND', 'K_ASTERISK', 'K_AT', 'K_BACKQUOTE', 'K_BACKSLASH', 'K_BACKSPACE', 'K_BREAK', 'K_CAPSLOCK', 'K_CARET', 'K_CLEAR', 'K_COLON', 'K_COMMA', 'K_DELETE', 'K_DOLLAR', 'K_DOWN', 'K_END', 'K_EQUALS', 'K_ESCAPE', 'K_EURO', 'K_EXCLAIM', 'K_F1', 'K_F10', 'K_F11', 'K_F12', 'K_F13', 'K_F14', 'K_F15', 'K_F2', 'K_F3', 'K_F4', 'K_F5', 'K_F6', 'K_F7', 'K_F8', 'K_F9', 'K_FIRST', 'K_GREATER', 'K_HASH', 'K_HELP', 'K_HOME', 'K_INSERT', 'K_KP0', 'K_KP1', 'K_KP2', 'K_KP3', 'K_KP4', 'K_KP5', 'K_KP6', 'K_KP7', 'K_KP8', 'K_KP9', 'K_KP_DIVIDE', 'K_KP_ENTER', 'K_KP_EQUALS', 'K_KP_MINUS', 'K_KP_MULTIPLY', 'K_KP_PERIOD', 'K_KP_PLUS', 'K_LALT', 'K_LAST', 'K_LCTRL', 'K_LEFT', 'K_LEFTBRACKET', 'K_LEFTPAREN', 'K_LESS', 'K_LMETA', 'K_LSHIFT', 'K_LSUPER', 'K_MENU', 'K_MINUS', 'K_MODE', 'K_NUMLOCK', 'K_PAGEDOWN', 'K_PAGEUP', 'K_PAUSE', 'K_PERIOD', 'K_PLUS', 'K_POWER', 'K_PRINT', 'K_QUESTION', 'K_QUOTE', 'K_QUOTEDBL', 'K_RALT', 'K_RCTRL', 'K_RETURN', 'K_RIGHT', 'K_RIGHTBRACKET', 'K_RIGHTPAREN', 'K_RMETA', 'K_RSHIFT', 'K_RSUPER', 'K_SCROLLOCK', 'K_SEMICOLON', 'K_SLASH', 'K_SPACE', 'K_SYSREQ', 'K_TAB', 'K_UNDERSCORE', 'K_UNKNOWN', 'K_UP', 'K_a', 'K_b', 'K_c', 'K_d', 'K_e', 'K_f', 'K_g', 'K_h', 'K_i', 'K_j', 'K_k', 'K_l', 'K_m', 'K_n', 'K_o', 'K_p', 'K_q', 'K_r', 'K_s', 'K_t', 'K_u', 'K_v', 'K_w', 'K_x', 'K_y', 'K_z', 'LIL_ENDIAN', 'MOUSEBUTTONDOWN', 'MOUSEBUTTONUP', 'MOUSEMOTION', 'Mask', 'NOEVENT', 'NOFRAME', 'NUMEVENTS', 'OPENGL', 'OPENGLBLIT', 'Overlay', 'PREALLOC', 'PixelArray', 'QUIT', 'RESIZABLE', 'RLEACCEL', 'RLEACCELOK', 'Rect', 'SCRAP_BMP', 'SCRAP_CLIPBOARD', 'SCRAP_PBM', 'SCRAP_PPM', 'SCRAP_SELECTION', 'SCRAP_TEXT', 'SRCALPHA', 'SRCCOLORKEY', 'SWSURFACE', 'SYSWMEVENT', 'Surface', 'SurfaceType', 'TIMER_RESOLUTION', 'USEREVENT', 'USEREVENT_DROPFILE', 'UYVY_OVERLAY', 'VIDEOEXPOSE', 'VIDEORESIZE', 'YUY2_OVERLAY', 'YV12_OVERLAY', 'YVYU_OVERLAY', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', 'base', 'bufferproxy', 'cdrom', 'color', 'colordict', 'compat', 'constants', 'cursors', 'display', 'draw', 'encode_file_path', 'encode_string', 'error', 'event', 'fastevent', 'font', 'get_error', 'get_sdl_byteorder', 'get_sdl_version', 'image', 'init', 'joystick', 'key', 'mask', 'math', 'mixer', 'mixer_music', 'mouse', 'movie', 'overlay', 'packager_imports', 'pixelarray', 'pixelcopy', 'quit', 'rect', 'register_quit', 'rwobject', 'scrap', 'segfault', 'set_error', 'sndarray', 'sprite', 'surface', 'surfarray', 'sysfont', 'threads', 'time', 'transform', 'ver', 'vernum', 'version', 'warn_unwanted_files']
+>>> 
+</pre>
+This is just one module. Imagine if you had 10 modules that did this. Could you tell which one came from which?
+
+<pre class="brush: python">
+metulburr@ubuntu:~$ python3
+Python 3.3.1 (default, Apr 17 2013, 22:30:32) 
+[GCC 4.7.3] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from pygame import *
+>>> from os import *
+>>> from sys import *
+>>> from django import *
+>>> from pyglet import *
+>>> from OpenGL import *
+>>> dir()
+['ACTIVEEVENT', 'ALLOW_NUMPY_SCALARS', 'ANYFORMAT', 'ARRAY_SIZE_CHECKING', 'ASYNCBLIT', 'AUDIO_S16', 'AUDIO_S16LSB', 'AUDIO_S16MSB', 'AUDIO_S16SYS', 'AUDIO_S8', 'AUDIO_U16', 'AUDIO_U16LSB', 'AUDIO_U16MSB', 'AUDIO_U16SYS', 'AUDIO_U8', 'BIG_ENDIAN', 'BLEND_ADD', 'BLEND_MAX', 'BLEND_MIN', 'BLEND_MULT', 'BLEND_PREMULTIPLIED', 'BLEND_RGBA_ADD', 'BLEND_RGBA_MAX', 'BLEND_RGBA_MIN', 'BLEND_RGBA_MULT', 'BLEND_RGBA_SUB', 'BLEND_RGB_ADD', 'BLEND_RGB_MAX', 'BLEND_RGB_MIN', 'BLEND_RGB_MULT', 'BLEND_RGB_SUB', 'BLEND_SUB', 'BUTTON_X1', 'BUTTON_X2', 'CONTEXT_CHECKING', 'Color', 'DOUBLEBUF', 'ERROR_CHECKING', 'ERROR_LOGGING', 'ERROR_ON_COPY', 'FORWARD_COMPATIBLE_ONLY', 'FULLSCREEN', 'FULL_LOGGING', 'FormatHandler', 'GL_ACCELERATED_VISUAL', 'GL_ACCUM_ALPHA_SIZE', 'GL_ACCUM_BLUE_SIZE', 'GL_ACCUM_GREEN_SIZE', 'GL_ACCUM_RED_SIZE', 'GL_ALPHA_SIZE', 'GL_BLUE_SIZE', 'GL_BUFFER_SIZE', 'GL_DEPTH_SIZE', 'GL_DOUBLEBUFFER', 'GL_GREEN_SIZE', 'GL_MULTISAMPLEBUFFERS', 'GL_MULTISAMPLESAMPLES', 'GL_RED_SIZE', 'GL_STENCIL_SIZE', 'GL_STEREO', 'GL_SWAP_CONTROL', 'HAT_CENTERED', 'HAT_DOWN', 'HAT_LEFT', 'HAT_LEFTDOWN', 'HAT_LEFTUP', 'HAT_RIGHT', 'HAT_RIGHTDOWN', 'HAT_RIGHTUP', 'HAT_UP', 'HWACCEL', 'HWPALETTE', 'HWSURFACE', 'IYUV_OVERLAY', 'JOYAXISMOTION', 'JOYBALLMOTION', 'JOYBUTTONDOWN', 'JOYBUTTONUP', 'JOYHATMOTION', 'KEYDOWN', 'KEYUP', 'KMOD_ALT', 'KMOD_CAPS', 'KMOD_CTRL', 'KMOD_LALT', 'KMOD_LCTRL', 'KMOD_LMETA', 'KMOD_LSHIFT', 'KMOD_META', 'KMOD_MODE', 'KMOD_NONE', 'KMOD_NUM', 'KMOD_RALT', 'KMOD_RCTRL', 'KMOD_RMETA', 'KMOD_RSHIFT', 'KMOD_SHIFT', 'K_0', 'K_1', 'K_2', 'K_3', 'K_4', 'K_5', 'K_6', 'K_7', 'K_8', 'K_9', 'K_AMPERSAND', 'K_ASTERISK', 'K_AT', 'K_BACKQUOTE', 'K_BACKSLASH', 'K_BACKSPACE', 'K_BREAK', 'K_CAPSLOCK', 'K_CARET', 'K_CLEAR', 'K_COLON', 'K_COMMA', 'K_DELETE', 'K_DOLLAR', 'K_DOWN', 'K_END', 'K_EQUALS', 'K_ESCAPE', 'K_EURO', 'K_EXCLAIM', 'K_F1', 'K_F10', 'K_F11', 'K_F12', 'K_F13', 'K_F14', 'K_F15', 'K_F2', 'K_F3', 'K_F4', 'K_F5', 'K_F6', 'K_F7', 'K_F8', 'K_F9', 'K_FIRST', 'K_GREATER', 'K_HASH', 'K_HELP', 'K_HOME', 'K_INSERT', 'K_KP0', 'K_KP1', 'K_KP2', 'K_KP3', 'K_KP4', 'K_KP5', 'K_KP6', 'K_KP7', 'K_KP8', 'K_KP9', 'K_KP_DIVIDE', 'K_KP_ENTER', 'K_KP_EQUALS', 'K_KP_MINUS', 'K_KP_MULTIPLY', 'K_KP_PERIOD', 'K_KP_PLUS', 'K_LALT', 'K_LAST', 'K_LCTRL', 'K_LEFT', 'K_LEFTBRACKET', 'K_LEFTPAREN', 'K_LESS', 'K_LMETA', 'K_LSHIFT', 'K_LSUPER', 'K_MENU', 'K_MINUS', 'K_MODE', 'K_NUMLOCK', 'K_PAGEDOWN', 'K_PAGEUP', 'K_PAUSE', 'K_PERIOD', 'K_PLUS', 'K_POWER', 'K_PRINT', 'K_QUESTION', 'K_QUOTE', 'K_QUOTEDBL', 'K_RALT', 'K_RCTRL', 'K_RETURN', 'K_RIGHT', 'K_RIGHTBRACKET', 'K_RIGHTPAREN', 'K_RMETA', 'K_RSHIFT', 'K_RSUPER', 'K_SCROLLOCK', 'K_SEMICOLON', 'K_SLASH', 'K_SPACE', 'K_SYSREQ', 'K_TAB', 'K_UNDERSCORE', 'K_UNKNOWN', 'K_UP', 'K_a', 'K_b', 'K_c', 'K_d', 'K_e', 'K_f', 'K_g', 'K_h', 'K_i', 'K_j', 'K_k', 'K_l', 'K_m', 'K_n', 'K_o', 'K_p', 'K_q', 'K_r', 'K_s', 'K_t', 'K_u', 'K_v', 'K_w', 'K_x', 'K_y', 'K_z', 'LIL_ENDIAN', 'MODULE_ANNOTATIONS', 'MOUSEBUTTONDOWN', 'MOUSEBUTTONUP', 'MOUSEMOTION', 'Mask', 'NOEVENT', 'NOFRAME', 'NUMEVENTS', 'OPENGL', 'OPENGLBLIT', 'Overlay', 'PREALLOC', 'P_NOWAIT', 'P_NOWAITO', 'P_WAIT', 'PixelArray', 'PlatformPlugin', 'QUIT', 'RESIZABLE', 'RLEACCEL', 'RLEACCELOK', 'Rect', 'SCRAP_BMP', 'SCRAP_CLIPBOARD', 'SCRAP_PBM', 'SCRAP_PPM', 'SCRAP_SELECTION', 'SCRAP_TEXT', 'SEEK_CUR', 'SEEK_END', 'SEEK_SET', 'SIZE_1_ARRAY_UNPACK', 'SRCALPHA', 'SRCCOLORKEY', 'STORE_POINTERS', 'SWSURFACE', 'SYSWMEVENT', 'Surface', 'SurfaceType', 'TIMER_RESOLUTION', 'UNSIGNED_BYTE_IMAGES_AS_STRING', 'USEREVENT', 'USEREVENT_DROPFILE', 'USE_ACCELERATE', 'UYVY_OVERLAY', 'VERSION', 'VIDEOEXPOSE', 'VIDEORESIZE', 'WARN_ON_FORMAT_UNAVAILABLE', 'YUY2_OVERLAY', 'YV12_OVERLAY', 'YVYU_OVERLAY', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '_exit', 'abiflags', 'altsep', 'api_version', 'app', 'argv', 'base', 'base_exec_prefix', 'base_prefix', 'bufferproxy', 'builtin_module_names', 'byteorder', 'call_tracing', 'callstats', 'canvas', 'cdrom', 'clock', 'color', 'colordict', 'com', 'compat', 'constants', 'copyright', 'curdir', 'cursors', 'defpath', 'devnull', 'display', 'displayhook', 'dont_write_bytecode', 'draw', 'encode_file_path', 'encode_string', 'environb', 'error', 'event', 'exc_info', 'excepthook', 'exec_prefix', 'execl', 'execle', 'execlp', 'execlpe', 'executable', 'execvp', 'execvpe', 'exit', 'extsep', 'fastevent', 'fdopen', 'flags', 'float_info', 'float_repr_style', 'font', 'fsdecode', 'fsencode', 'fwalk', 'get_error', 'get_exec_path', 'get_sdl_byteorder', 'get_sdl_version', 'get_version', 'getcheckinterval', 'getdefaultencoding', 'getdlopenflags', 'getenv', 'getenvb', 'getfilesystemencoding', 'getprofile', 'getrecursionlimit', 'getrefcount', 'getsizeof', 'getswitchinterval', 'gettrace', 'gl', 'graphics', 'hash_info', 'hexversion', 'image', 'implementation', 'init', 'input', 'int_info', 'intern', 'joystick', 'key', 'lib', 'linesep', 'makedirs', 'mask', 'math', 'maxsize', 'maxunicode', 'media', 'meta_path', 'mixer', 'mixer_music', 'modules', 'mouse', 'movie', 'name', 'options', 'os', 'overlay', 'packager_imports', 'pardir', 'path', 'path_hooks', 'path_importer_cache', 'pathsep', 'pixelarray', 'pixelcopy', 'platform', 'plugins', 'popen', 'prefix', 'ps1', 'ps2', 'putenv', 'quit', 'rect', 'register_quit', 'removedirs', 'renames', 'resource', 'rwobject', 'scrap', 'segfault', 'sep', 'set_error', 'setcheckinterval', 'setdlopenflags', 'setprofile', 'setrecursionlimit', 'setswitchinterval', 'settrace', 'sndarray', 'spawnl', 'spawnle', 'spawnlp', 'spawnlpe', 'spawnv', 'spawnve', 'spawnvp', 'spawnvpe', 'sprite', 'stderr', 'stdin', 'stdout', 'supports_bytes_environ', 'surface', 'surfarray', 'sys', 'sysfont', 'text', 'thread_info', 'threads', 'time', 'transform', 'unsetenv', 'ver', 'vernum', 'version', 'version_info', 'walk', 'warn_unwanted_files', 'warnoptions', 'window']
+>>> 
+</pre>
+
+
+
+<b>Here is the way to stop this:</b>
+<pre class="brush: python">
+metulburr@ubuntu:~$ python3
+Python 3.3.1 (default, Apr 17 2013, 22:30:32) 
+[GCC 4.7.3] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import pygame
+>>> pygame.time
+<module 'pygame.time' from '/usr/local/lib/python3.3/dist-packages/pygame/time.cpython-33m.so'>
+>>> import time
+>>> time
+<module 'time' (built-in)>
+>>> pygame.time
+<module 'pygame.time' from '/usr/local/lib/python3.3/dist-packages/pygame/time.cpython-33m.so'>
+>>> 
+</pre>
+
+At this point I have access to both pygame.time and the time module. In addition, i also know exactly which one is which. That massive list is now this small.
+
+<pre class="brush: python">
+>>> dir()
+['__builtins__', '__doc__', '__loader__', '__name__', '__package__', 'pygame', 'time']
+>>> 
+</pre>
+
+You may think it is a convenience factor to not have to write pygame.K_SPACE and just write K_SPACE. You can shorten the name of pygame, for example:
+<pre class="brush: python">
+import pygame as pg
+</pre>
+
+which at that point the previous code becomes:
+pg.K_SPACE. It is distinguished where it came from, doesn't overwrite, and is shorter. Long story short: Do not fall in the habit of using * imports.
+<br>
+
+
+<!--#include virtual="../foot.shtml"-->
+</div>
+
+
+
+
+
+
+
+</body>
+</html>
