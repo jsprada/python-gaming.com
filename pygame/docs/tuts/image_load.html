@@ -90,7 +90,7 @@ This removes any required resources while still getting your point across.
 </p>
 
 <p>
-Now lets remove that purple background. This is common to color the background purple or (255,0,255) to colorkey it. Just as long as no other part of the actual image has that color. You can use any color, but this is the common one used.  
+Now lets remove that pink background. This is common to color the background pink or (255,0,255) to colorkey it. Just as long as no other part of the actual image has that color. You can use any color, but this is the common one used.  
 </p>
 
 <pre class="brush: python">
@@ -99,11 +99,11 @@ image.set_colorkey((255,0,255))
 
 
 <p>
-By adding this line after loading the image, you can make the pruple background transparent. It sets the colorkey to the background color, making it invisible. 
+By adding this line after loading the image, you can make the pink background transparent. It sets the colorkey to the background color, making it invisible. 
 </p>
 
 <p>
-Now lets organize this code better. The more we add to the image and modifying it, the more messy our code is getting. We need to separate the player (the image, and its data and logic). So we are going to make a player class to house this image and its data in.  
+Now lets organize this code better. The more we add to the image and modifying it, the more messy our code is getting. We need to separate the player (the image, and its data and logic). So we are going to make a player class to house this image and its data in. Don't freak out if you never used classes before. We are going to start simple and just convert our current code to use a class. And then instead of adding on to it in global scope, we will add on to it in the class.
 </p>
 
 <pre class="brush: python">

@@ -64,7 +64,8 @@ while not done:
 
 </pre>
 
-First we added the get_event method for the player. This gets executed every frame for every event. It first checks for a keydown event type. Then it checks for either a left or right arrow key press. If it detects that it then modifies the image rect accordingly. (decreasing for left, increasing for right). 
+First we added the get_event method for the player. This gets executed every frame for every event. It first checks for a keydown event type. Then it checks for either a left or right arrow key press. If it detects that it then modifies the image rect accordingly. It decreasing the rect x value for left, and increasing for right. This is because the top left of your window is (0,0), while the bottom right of the window is our defined windows size (800,600). As is we are subtracting a
+positive value to make it go left. But you could also add a negative number instead. 
 <pre class="brush: python">
         self.speed = 5
         
@@ -85,7 +86,7 @@ And then we executed that method within the main event loop.
 </pre>
 
 <p>
-This is perfect for things like shooting lasers from the ship as you would want only one hot per key press (for example). Not so good though for constant movement.
+This is perfect for things like shooting lasers from the ship as you would want only one shot per key press (for example). Not so good though for constant movement.
 </p>
 
 <p>
@@ -133,7 +134,7 @@ while not done:
 </pre>
 
 <p>
-So we ditched the get_event method in Player class as well as its call in the main event loop. We replaced that method with an update method. And we replaced the call to the new update method. However this method is called every frame, unlike the get_event method that was called in the main event loop. This method is meant to be called every frame. pygame.key.get_pressed() gives us a list of pressed keys, which in turn gets sent to the Player.update method. This method then checks those keys for your movement key and moves the ship the same way we did with the event movements. Because this is called every frame, it will move every frame (if you have a key pressed). 
+So we ditched the get_event method in Player class as well as its call in the main event loop. We replaced that method with an update method. And we replaced the call to the new update method. However this method is called every frame, unlike the get_event method that was called in the main event loop. This method is meant to be called every frame regardless of key press. pygame.key.get_pressed() gives us a list of pressed keys, which in turn gets sent to the Player.update method. This method then checks those keys for your movement key and moves the ship the same way we did with the event movements. Because this is called every frame, it will move every frame (if you have a key pressed). 
 </p>
 
 <p>
@@ -195,7 +196,7 @@ In the Player dunder init method (__init__), we add an attribute for screen rect
 <img src="animatedship.gif"/>
 </center>
 <p>
-Now lets switch the player to move using delta time. 
+Now lets switch the player to move using delta time. This part is not required. This is here for just completness. Some people move their objects via per pixels, and some via delta time. The choice is yours.  
 </p>
 <pre class="brush: python; title: 'Code'">
 import pygame as pg
