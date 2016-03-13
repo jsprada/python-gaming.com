@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+</script>
+<link rel="stylesheet" href="_static/pygame.css" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="http://python-gaming.com/pygame/docs/layout.css" />
+<!--#include virtual="../../../menu/menu.shtml"-->
+<!--#include virtual="../../../highlighter.html"-->
+
+
+</head>
+<body>
+<!--#include virtual="../nav.shtml"-->
+
+<div class="sectionwrapper">
+<br>
+
+<center>
+<h3>
+Handling basic events and movement
+</h3>
+</center>
+<p>
+Here we are going to use the latest code from the image loading tutorial of the spaceship. 
+</p>
+
+<pre class="brush: python; title: 'Code'">
+import pygame as pg
+ 
+pg.init()
+ 
+class Player:
+    def __init__(self, screen_rect):
+        self.image = pg.image.load('spaceship.png').convert()
+        self.image.set_colorkey((255,0,255))
+        self.transformed_image = pg.transform.rotate(self.image, 180)
+        self.rect = self.image.get_rect(center=screen_rect.center)
+        self.speed = 5
+        
+    def get_event(self, event):
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_LEFT:
+                self.rect.x -= self.speed
+            elif event.key == pg.K_RIGHT:
+                self.rect.x += self.speed
+         
+    def draw(self, surf):
+        surf.blit(self.transformed_image, self.rect)
+ 
+screen = pg.display.set_mode((800,600))
+screen_rect = screen.get_rect()
+player = Player(screen_rect)
+done = False
+while not done:
+    screen.fill((0,0,0))
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT:
+            done = True
+        player.get_event(event)
+    player.draw(screen)
+    pg.display.update()
+
+</pre>
+
+First we added the get_event method for the player. This gets executed every frame for every event. It first checks for a keydown event type. Then it checks for either a left or right arrow key press. If it detects that it then modifies the image rect accordingly. (decreasing for left, increasing for right). 
+<pre class="brush: python">
+        self.speed = 5
+        
+    def get_event(self, event):
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_LEFT:
+                self.rect.x -= self.speed
+            elif event.key == pg.K_RIGHT:
+                self.rect.x += self.speed
+</pre>
+
+And then we executed that method within the main event loop. 
+<pre class="brush: python">
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT:
+            done = True
+        player.get_event(event)
+</pre>
+
+<p>
+This is perfect for things like shooting lasers from the ship as you would want only one hot per key press (for example). Not so good though for constant movement.
+</p>
+
+<p>
+However lets say you want to hold the arrow keys down to constantly move the ship back and forth. The best way to do this is to use pygame.key.get_pressed(). This is going to force us to add a few more things. First we need to get rid of Player.get_event method. We do not need to catch each key press, we only need to check if that key is down or not. 
+</p>
+
+<pre class="brush: python; title: 'Code'">
+import pygame as pg
+ 
+pg.init()
+ 
+class Player:
+    def __init__(self, screen_rect):
+        self.image = pg.image.load('spaceship.png').convert()
+        self.image.set_colorkey((255,0,255))
+        self.transformed_image = pg.transform.rotate(self.image, 180)
+        self.rect = self.image.get_rect(center=screen_rect.center)
+        self.speed = 5
+        
+    def update(self, keys):
+        if keys[pg.K_LEFT]:
+            self.rect.x -= self.speed
+        elif keys[pg.K_RIGHT]:
+            self.rect.x += self.speed
+         
+    def draw(self, surf):
+        surf.blit(self.transformed_image, self.rect)
+ 
+screen = pg.display.set_mode((800,600))
+screen_rect = screen.get_rect()
+player = Player(screen_rect)
+clock = pg.time.Clock()
+done = False
+while not done:
+    screen.fill((0,0,0))
+    keys = pg.key.get_pressed()
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT:
+            done = True
+    player.update(keys)
+    player.draw(screen)
+    pg.display.update()
+    clock.tick(60)
+
+</pre>
+
+<p>
+So we ditched the get_event method in Player class as well as its call in the main event loop. We replaced that method with an update method. And we replaced the call to the new update method. However this method is called every frame, unlike the get_event method that was called in the main event loop. This method is meant to be called every frame. pygame.key.get_pressed() gives us a list of pressed keys, which in turn gets sent to the Player.update method. This method then checks those keys for your movement key and moves the ship the same way we did with the event movements. Because this is called every frame, it will move every frame (if you have a key pressed). 
+</p>
+
+<p>
+The next thing we had to add was a clock. Without this clock the main game loop would run at different speeds depending on the speed of each computer. This clock slows the speed down to 60 frames per second. We do this by creating a clock object from pygame.time.Clock() and calling its method tick(60) in the main game loop.
+</p>
+
+<p>
+Now you should be able to move the ship to the left and right by just holding down the left or right arrow key. 
+</p>
+
+Now lets lock the player to the screen so it cannot move out of the screen. With pygame.Rects this is a simple task. This requires only 2 more line sto be added.
+
+<pre class="brush: python; title: 'Code'">
+import pygame as pg
+ 
+pg.init()
+ 
+class Player:
+    def __init__(self, screen_rect):
+        self.screen_rect = screen_rect
+        self.image = pg.image.load('spaceship.png').convert()
+        self.image.set_colorkey((255,0,255))
+        self.transformed_image = pg.transform.rotate(self.image, 180)
+        self.rect = self.image.get_rect(center=screen_rect.center)
+        self.speed = 5
+        
+    def update(self, keys):
+        self.rect.clamp_ip(self.screen_rect)
+        if keys[pg.K_LEFT]:
+            self.rect.x -= self.speed
+        elif keys[pg.K_RIGHT]:
+            self.rect.x += self.speed
+         
+    def draw(self, surf):
+        surf.blit(self.transformed_image, self.rect)
+ 
+screen = pg.display.set_mode((800,600))
+screen_rect = screen.get_rect()
+player = Player(screen_rect)
+clock = pg.time.Clock()
+done = False
+while not done:
+    screen.fill((0,0,0))
+    keys = pg.key.get_pressed()
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT:
+            done = True
+    player.update(keys)
+    player.draw(screen)
+    pg.display.update()
+    clock.tick(60)
+</pre>
+
+<p>
+In the Player dunder init method (__init__), we add an attribute for screen rect. This is just so we can call it from another method. The next line actually restricts the players rect from moving outside of the screen rect. We add this line to the update method. rect.clamp_ip() clamps the rect to not allow it to move outside of the rect in its arguments. Because the screen rect is the arg, it restricts the player from moving outside of the screen.
+</p>
+
+<center>
+<img src="animatedship.gif"/>
+</center>
+<p>
+Now lets switch the player to move using delta time. 
+</p>
+<pre class="brush: python; title: 'Code'">
+import pygame as pg
+ 
+pg.init()
+ 
+class Player:
+    def __init__(self, screen_rect):
+        self.screen_rect = screen_rect
+        self.image = pg.image.load('spaceship.png').convert()
+        self.image.set_colorkey((255,0,255))
+        self.transformed_image = pg.transform.rotate(self.image, 180)
+        self.rect = self.image.get_rect(center=screen_rect.center)
+        self.dx = 100
+        
+    def update(self, keys, dt):
+        self.rect.clamp_ip(self.screen_rect)
+        if keys[pg.K_LEFT]:
+            self.rect.x -= self.dx * dt
+        elif keys[pg.K_RIGHT]:
+            self.rect.x += self.dx * dt
+         
+    def draw(self, surf):
+        surf.blit(self.transformed_image, self.rect)
+ 
+screen = pg.display.set_mode((800,600))
+screen_rect = screen.get_rect()
+player = Player(screen_rect)
+clock = pg.time.Clock()
+done = False
+while not done:
+    keys = pg.key.get_pressed()
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT:
+            done = True
+    screen.fill((0,0,0))
+    delta_time = clock.tick(60)/1000.0
+    player.update(keys, delta_time)
+    player.draw(screen)
+    pg.display.update()
+
+</pre>
+
+
+<pre class="brush: python">
+    delta_time = clock.tick(60)/1000.0
+    player.update(keys, delta_time)
+</pre>
+
+<p>
+Here we got the return of clock.tick(60)/1000 to get per seconds for delta time. We then pass that to the players update method. 
+</p>
+
+<pre class="brush: python">
+    def update(self, keys, dt):
+        self.rect.clamp_ip(self.screen_rect)
+        if keys[pg.K_LEFT]:
+            self.rect.x -= self.dx * dt
+        elif keys[pg.K_RIGHT]:
+            self.rect.x += self.dx * dt
+</pre>
+
+<p>
+But now we use delta time to move the rect instead. We multiply delta time by our movement change in x. 
+</p>
+
+
+<hr>
+
+<p>
+Now we are going to make things a little more complex. We are going to add the ability to make the ship shoot a laser. Unlike the movement of the ship though, we want it to occur on keypress, and not constantly. So we are going to add a get_event method to the player class again. We are also going to make the lasers itself another object, thus it needs its own class. Normally the laser class would be its own module, the player class its own module, the control class its own
+module, and would all be imported into a "game" class (so to speak)...that basically keeps track of whats in the environment of the game. However to make things easier in a tutorial, all classes are going to be meshed in one file (at least for this one). 
+</p>
+
+
+<pre class="brush: python; title: 'Code'">
+import pygame as pg
+ 
+pg.init()
+
+class Laser:
+    def __init__(self, loc):
+        self.image = pg.Surface((5,40)).convert()
+        self.image.fill((255,255,0))
+        self.rect = self.image.get_rect(center=loc)
+        self.speed = 5
+        
+    def update(self):
+        self.rect.y -= self.speed
+    
+    def render(self, surf):
+        surf.blit(self.image, self.rect)
+ 
+class Player:
+    def __init__(self, screen_rect):
+        self.screen_rect = screen_rect
+        self.image = pg.image.load('spaceship.png').convert()
+        self.image.set_colorkey((255,0,255))
+        self.transformed_image = pg.transform.rotate(self.image, 180)
+        start_buffer = 300
+        self.rect = self.image.get_rect(
+            center=(screen_rect.centerx, screen_rect.centery + start_buffer)
+        )
+        self.dx = 300
+        self.lasers = []
+        
+    def get_event(self, event):
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_SPACE:
+                self.lasers.append(Laser(self.rect.center))
+        
+    def update(self, keys, dt):
+        self.rect.clamp_ip(self.screen_rect)
+        if keys[pg.K_LEFT]:
+            self.rect.x -= self.dx * dt
+        elif keys[pg.K_RIGHT]:
+            self.rect.x += self.dx * dt
+        for laser in self.lasers:
+            laser.update()
+         
+    def draw(self, surf):
+        for laser in self.lasers:
+            laser.render(surf)
+        surf.blit(self.transformed_image, self.rect)
+ 
+screen = pg.display.set_mode((800,600))
+screen_rect = screen.get_rect()
+player = Player(screen_rect)
+clock = pg.time.Clock()
+done = False
+while not done:
+    keys = pg.key.get_pressed()
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT:
+            done = True
+        player.get_event(event)
+    screen.fill((0,0,0))
+    delta_time = clock.tick(60)/1000.0
+    player.update(keys, delta_time)
+    player.draw(screen)
+    pg.display.update()
+
+</pre>
+
+<p>
+So lets start with the Laser class. This class is similar to the player class when we first started that. It has an update method to update every frame. It has a render method (draw), that draws the image to the rect position. Instead of loading an image though, it creates a rectangle surface narrowed to look similar to a laser. **You should substitute your image loads for an arbitrary pygame.Surface like this when posting for help. And remove the image load. This makes it so the people on the other end do not require your esources (images).** We fill the surface with a color and then set the lasers rect position. To keep things as simple as possible I did not use delta time for movement. 
+</p>
+
+<pre class="brush: python">
+class Laser:
+    def __init__(self, loc):
+        self.image = pg.Surface((5,40)).convert()
+        self.image.fill((255,255,0))
+        self.rect = self.image.get_rect(center=loc)
+        self.speed = 5
+        
+    def update(self):
+        self.rect.y -= self.speed
+    
+    def render(self, surf):
+        surf.blit(self.image, self.rect)
+</pre>
+
+<p>
+Now in the player class we did some cleanup as well as adding the lasers. We centered the ship lower on the screen, as opposed to smack dab in the center. We added a laser list attribute to house the active lasers in. We added a get_event to check for keypresses to add a new laser into the laser list. And we added the laser updates and draw method executions in the players same methods. You can avoid these loops and save yourself a line per loop by using sprite groups, but that is for another tutorial. And that is up to you whether you want to use loops or use sprite groups. I positioned the laser render methods loop before the drawing of the ship. This creates the effect that the laser shoots from underneath the ship. Otherwise the laser is seen directly over top of the ship when it is created. 
+</p>
+
+<pre class="brush: python">
+class Player:
+    def __init__(self, screen_rect):
+        self.screen_rect = screen_rect
+        self.image = pg.image.load('spaceship.png').convert()
+        self.image.set_colorkey((255,0,255))
+        self.transformed_image = pg.transform.rotate(self.image, 180)
+        start_buffer = 300
+        self.rect = self.image.get_rect(
+            center=(screen_rect.centerx, screen_rect.centery + start_buffer)
+        )
+        self.dx = 300
+        self.lasers = []
+        
+    def get_event(self, event):
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_SPACE:
+                self.lasers.append(Laser(self.rect.center))
+        
+    def update(self, keys, dt):
+        self.rect.clamp_ip(self.screen_rect)
+        if keys[pg.K_LEFT]:
+            self.rect.x -= self.dx * dt
+        elif keys[pg.K_RIGHT]:
+            self.rect.x += self.dx * dt
+        for laser in self.lasers:
+            laser.update()
+         
+    def draw(self, surf):
+        for laser in self.lasers:
+            laser.render(surf)
+        surf.blit(self.transformed_image, self.rect)
+</pre>
+   
+<p>
+The only other thing that was added was the execution of the new player.get_event method.
+</p>
+<pre class="brush: python">
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT:
+            done = True
+        player.get_event(event)
+</pre>
+
+<p>
+Now i am going to show you a variation on the lasers. In this example I housed the laser list in the player class. Some people would prefer to keep the lasers outside of the player class. This is possible too. In this way you could make the laser list a class varaible instead. Take out all the laser updates, draw method, and even checks from your player class and put them into your main game loop instead. 
+</p>
+
+<pre class="brush: python">
+import pygame as pg
+ 
+pg.init()
+
+class Laser:
+    lasers = []
+    def __init__(self, loc):
+        self.image = pg.Surface((5,40)).convert()
+        self.image.fill((255,255,0))
+        self.rect = self.image.get_rect(center=loc)
+        self.speed = 5
+        
+    def update(self):
+        self.rect.y -= self.speed
+    
+    def render(self, surf):
+        surf.blit(self.image, self.rect)
+ 
+class Player:
+    def __init__(self, screen_rect):
+        self.screen_rect = screen_rect
+        self.image = pg.image.load('spaceship.png').convert()
+        self.image.set_colorkey((255,0,255))
+        self.transformed_image = pg.transform.rotate(self.image, 180)
+        start_buffer = 300
+        self.rect = self.image.get_rect(
+            center=(screen_rect.centerx, screen_rect.centery + start_buffer)
+        )
+        self.dx = 300
+        
+    def get_event(self, event):
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_SPACE:
+                return True
+        
+    def update(self, keys, dt):
+        self.rect.clamp_ip(self.screen_rect)
+        if keys[pg.K_LEFT]:
+            self.rect.x -= self.dx * dt
+        elif keys[pg.K_RIGHT]:
+            self.rect.x += self.dx * dt
+         
+    def draw(self, surf):
+        surf.blit(self.transformed_image, self.rect)
+ 
+screen = pg.display.set_mode((800,600))
+screen_rect = screen.get_rect()
+player = Player(screen_rect)
+clock = pg.time.Clock()
+done = False
+while not done:
+    keys = pg.key.get_pressed()
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT:
+            done = True
+        add_laser = player.get_event(event)
+        if add_laser:
+            Laser.lasers.append(Laser(player.rect.center))
+    screen.fill((0,0,0))
+    delta_time = clock.tick(60)/1000.0
+    player.update(keys, delta_time)
+    for laser in Laser.lasers:
+        laser.update()
+        laser.render(screen)
+    player.draw(screen)
+    pg.display.update()
+
+</pre>
+
+<!--#include virtual="../foot.shtml"-->
+</div>
+
+
+</body>
+</html>

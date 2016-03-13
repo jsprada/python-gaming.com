@@ -180,8 +180,11 @@ Control.flip_state actually flips the state to the next state. Each state has a 
 </p>
 
 <p>
-Only the active state (Control.state) will run its methods. So you can keep your menu draw, menu updates, and menu event checks inside the Menu class. The same for Game...or any other state. This clumps the related code together in each states class. So if you need to modify something for your menu, it will be in Menu class. If you need to modify something for your game, it will be in your Game class. With just these two classes, it looks more work than it is worth. But when you have tons and tons of states, this makes it easy to find your code you are looking for. Its organized and structured. Usually each state will be in a different module. And states would be grouped together in the same directory. 
+Only the active state (Control.state) will run its methods. So you can keep your menu draw, menu updates, and menu event checks inside the Menu class. The same for Game...or any other state. This clumps the related code together in each states class. So if you need to modify something for your menu, it will be in Menu class. If you need to modify something for your game, it will be in your Game class. With just these two classes, it looks more work than it is worth. But when you have
+tons and tons of states, this makes it easy to find your code you are looking for. Its organized and structured. It also ensure you have only one event loop, and it is in your Control class. The state classes just have check events that have if clauses inside of it. Usually each state will be in a different module. And states would be grouped together in the same directory.  
 </p>
+
+
 <br>
 
 

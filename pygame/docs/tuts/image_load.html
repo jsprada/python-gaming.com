@@ -16,22 +16,229 @@
 
 <div class="sectionwrapper">
 <br>
---linux is case sensitive
---use convert()
---use pg.Surface() to create arbitrary surface isntead of image for sharing on posts
 <center>
     <h3>
-        How to load an image
+        How to load and modify an image
     </h3>
 </center>
 <a download="spaceship.png" href="spaceship.png">Download this image</a><br>
 <img src="spaceship.png" alt="spaceship.png" style="width:50px;height:75px;">
 
-<pre class="brush: python; title: 'Codebox Title'">
-class Klass:
-    pass
+<pre class="brush: python; title: 'Code'">
+import pygame as pg
+
+pg.init()
+
+screen = pg.display.set_mode((800,600))
+screen_rect = screen.get_rect()
+image = pg.image.load('spaceship.png').convert()
+done = False
+while not done:
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            done = True
+    screen.blit(image, screen_rect.center)
+    pg.display.update()
 </pre>
 
+<p>
+This code adds 3 more lines than the previous tutorial of opening a window. 
+</p>
+
+<pre class="brush: python">
+screen_rect = screen.get_rect()
+image = pg.image.load('spaceship.png').convert()
+</pre>
+
+<p>
+Here we create a pygame.Rect from the screen. It allows us to use pygame rects to position things on the screen, instead of hard coding an x and y position (100,100). Although you can if you would like to. After that we load the image with pygame.image.load. You should always use convert() on your image loads as it speeds things up. If you have an alpha channel in your image you should then always use convert_alpha().
+</p>
+
+<pre class="brush: python">
+    screen.blit(image, screen_rect.center)
+</pre>
+
+<p>
+Here we blit the image to the screen at the position of the screen center. It puts the top left of the image at the screen center. To do this properly centered, you need to have the image have a rect itself. But that will be for later. 
+</p>
+
+<p>
+There are a few points to remember. Linux is case sensitive. So if your image is labeled as spaceship.PNG and you load it as spaceship.png. (notice the caps) This means, if you write a program in Windows and give it to your friends in linux, they are going to get an error while you do not. Always use convert() on an image load. Don't load your images within your main game loop, or even inside a class that will be created numerous times. What is going to happen is your are going to drag your game to a dead stop and it will lag. When you need help, provide your resources (images, etc.) by making a github repo and uploading all of your code to it. The other alternative is to modify your code to remove the actual image in place of a general pygame surface. Example below. 
+</p>
+
+<pre class="brush: python">
+import pygame as pg
+ 
+pg.init()
+ 
+screen = pg.display.set_mode((800,600))
+screen_rect = screen.get_rect()
+#image = pg.image.load('spaceship.png').convert()
+image = pg.Surface([50,50]).convert()
+image.fill((255,0,0))
+done = False
+while not done:
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            done = True
+    screen.blit(image, screen_rect.center)
+    pg.display.update()
+</pre>
+
+<p>
+This removes any required resources while still getting your point across. 
+</p>
+
+<p>
+Now lets remove that purple background. This is common to color the background purple or (255,0,255) to colorkey it. Just as long as no other part of the actual image has that color. You can use any color, but this is the common one used.  
+</p>
+
+<pre class="brush: python">
+image.set_colorkey((255,0,255))
+</pre>
+
+
+<p>
+By adding this line after loading the image, you can make the pruple background transparent. It sets the colorkey to the background color, making it invisible. 
+</p>
+
+<p>
+Now lets organize this code better. The more we add to the image and modifying it, the more messy our code is getting. We need to separate the player (the image, and its data and logic). So we are going to make a player class to house this image and its data in.  
+</p>
+
+<pre class="brush: python">
+import pygame as pg
+
+pg.init()
+
+class Player:
+    def __init__(self, screen_rect):
+        self.image = pg.image.load('spaceship.png').convert()
+        self.image.set_colorkey((255,0,255))
+        self.rect = self.image.get_rect(center=screen_rect.center)
+        
+    def draw(self, surf):
+        surf.blit(self.image, self.rect)
+
+screen = pg.display.set_mode((800,600))
+screen_rect = screen.get_rect()
+player = Player(screen_rect)
+done = False
+while not done:
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT:
+            done = True
+    player.draw(screen)
+    pg.display.update()
+</pre>
+
+<p>
+So here we made a class for the player. The only thing we really added was the rect for the player. It gets the size of the rect from the size of the image. Also you can give it a position argument. Here it is centered on the screen center. We made a draw method to house the actual blit contents for the image and we draw it at the position of its rect. Now in the main game loop we just call this method and pass the screen to it.
+</p>
+
+<p>
+We are going to rotate this image 180 degrees before we call it quits. It as is faces downwards. And we are going to face it upwards. Whenever you scale or rotate, you MUST always not use the original image. This is mainly for if you are constantly rotating the image by key press (like a gun turret). But its a good habit to get into. It will save you a headache down the line. 
+</p>
+
+<pre class="brush: python">
+        self.transformed_image = pg.transform.rotate(self.image, 180)
+</pre>
+
+<p>
+This line takes the original image (self.image) and rotates it 180 degrees, then saves it as a new surface. Notice i did not save it back into self.image, but a new variable. This is vital in a constant rotating image, but not here. 
+</p>
+
+<pre class="brush: python">
+        surf.blit(self.transformed_image, self.rect)
+</pre>
+
+<p>
+The other thing we changed was to blit the new rotated image and not the original
+</p>
+
+<pre class="brush: python; title: 'Code'">
+import pygame as pg
+ 
+pg.init()
+ 
+class Player:
+    def __init__(self, screen_rect):
+        self.image = pg.image.load('spaceship.png').convert()
+        self.image.set_colorkey((255,0,255))
+        self.transformed_image = pg.transform.rotate(self.image, 180)
+        self.rect = self.image.get_rect(center=screen_rect.center)
+         
+    def draw(self, surf):
+        surf.blit(self.transformed_image, self.rect)
+ 
+screen = pg.display.set_mode((800,600))
+screen_rect = screen.get_rect()
+player = Player(screen_rect)
+done = False
+while not done:
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT:
+            done = True
+    player.draw(screen)
+    pg.display.update()
+</pre>
+
+
+<a download="chevron.png" href="chevron.png">Download this image</a><br>
+<img src="chevron.png" alt="chevron.png" style="width:50px;height:75px;">
+
+<p>
+This image has an alpha channel. The background is transparent. This means we must load the image with convert_alpha() instead. Im going to show you how to load and color this image to a different color. 
+</p>
+
+<pre class="brush: python">
+import pygame as pg
+ 
+pg.init()
+
+def colorize(image, newColor):
+    """
+    Create a "colorized" copy of a surface (replaces RGB values with the given color, preserving the per-pixel alphas of
+    original).
+    :param image: Surface to create a colorized copy of
+    :param newColor: RGB color to use (original alpha values are preserved)
+    :return: New colorized Surface instance
+    """
+    image = image.copy()
+
+    # zero out RGB values
+    image.fill((0, 0, 0, 255), None, pg.BLEND_RGBA_MULT)
+    # add in new RGB values
+    image.fill(newColor[0:3] + (0,), None, pg.BLEND_RGBA_ADD)
+
+    return image
+ 
+class Player:
+    def __init__(self, screen_rect):
+        self.image = pg.image.load('chevron.png').convert_alpha()
+        self.image = colorize(self.image, (255,0,0))
+        self.rect = self.image.get_rect(center=screen_rect.center)
+         
+    def draw(self, surf):
+        surf.blit(self.image, self.rect)
+ 
+screen = pg.display.set_mode((800,600))
+screen_rect = screen.get_rect()
+player = Player(screen_rect)
+done = False
+while not done:
+    screen.fill((255,255,255))
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT:
+            done = True
+    player.draw(screen)
+    pg.display.update()
+
+</pre>
+
+<p>
+So here we have the exact same code as before. We updated the image to load this chevron instead. As well as make it load via convert_alpha() instead of just convert(). The only difference in the class is we execute the new function colorize on the image. This function shades a new color on the image. In this example we change the original black chevron to a red chevron. 
+</p>
 
 
 <!--#include virtual="../foot.shtml"-->
