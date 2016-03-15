@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+</script>
+<link rel="stylesheet" href="_static/pygame.css" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="http://python-gaming.com/pygame/docs/layout.css" />
+<!--#include virtual="../../../menu/menu.shtml"-->
+<!--#include virtual="../../../highlighter.html"-->
+
+
+</head>
+<body>
+<!--#include virtual="../nav.shtml"-->
+
+<div class="sectionwrapper">
+<br>
+
+<center>
+    <h3>
+        Building an exe
+    </h3>
+</center>
+
+<p>
+There are numerous programs to aid in building an exe for Windows for your pygame (or rather any python program)... <a href="http://www.py2exe.org/">py2exe</a>, <a href="http://www.pyinstaller.org/">PyInstaller</a>, and <a href="http://cx-freeze.sourceforge.net/">cx_freeze</a> are the top known libraries. py2exe is solely for Windows, while cx_freeze and PyInstaller can make a standalone for linux. <a href="https://pythonhosted.org/py2app/">py2app</a> is for making Mac OS X applications.  
+</p>
+
+<p>
+In this example we will start off with py2exe. It can be downloaded from <a href="https://pypi.python.org/pypi/py2exe">pypi</a>. It is installed onto python as any other 3rd party library. You can use the msi installer, the wheel install, pip to install, or install via module source distribution. The latter one, you can download py2exe source (the zip file from Download link). Extract the zip file. Execute the followiing command in the windows shell (command prompt) to install the 3rd party library.  
+</p>
+
+<pre class="brush: python">
+python setup.py install
+</pre>
+
+<p>
+In that command "python" is the location of your python interpreter. An example path to the interpreter would be C:/Python3.3/python.exe. After you have sucessfully installed py2exe as a 3rd party libary to the python interpreter that you plan on using, you will need to create a setup.py script to run. If you have multiple python versions installed, make sure you use the one you installed py2exe on. Here is the setup.py script that I use for vanilla pygame games. By vanilla i mean,
+pygame is the only 3rd party library used on making the game that needs to be used in py2exe. 
+
+</p>
+
+<pre class="brush: python">
+
+import os
+import sys
+import py2exe
+from distutils.core import setup
+
+origIsSystemDLL = py2exe.build_exe.isSystemDLL
+def isSystemDLL(pathname):
+    dlls = ("libfreetype-6.dll", "libogg-0.dll", "sdl_ttf.dll")
+    if os.path.basename(pathname).lower() in dlls:
+        return 0
+    return origIsSystemDLL(pathname)
+py2exe.build_exe.isSystemDLL = isSystemDLL
+
+sys.argv.append('py2exe')
+setup(options={'py2exe': {'bundle_files': 1, 'compressed': True}},
+      windows=[{'script': "game.py"}],
+      zipfile=None)</pre>
+
+<p>
+This script can be modified to do different things. This is your "settings" to how you want the exe built. In this example everything is bundled into the exe. Everything except any resources that are required by your programs such as images, fonts, sounds, music, etc. The Python standard library is embedded into the exe, as well as the interpreter. This is indicated by zipfile being set to None, and the options dict of bundle_files set to 1, and compressed set to True. If
+you didnt do this you would have in addition to your exe a zip file with all the standard library, a python dll for your interpreter, that would have to be with your exe. "windows" is the arg for GUI programs. "game.py" is the starter script for your game (whatever script you execute to start your game). Save this script as "setup.py". 
+
+</p>
+
+<p>
+Now we are going to back to the command prompt and start the build. All you are going to do is execute your setup script with py2exe argument.
+</p>
+
+<pre class="brush: python">
+python setup.py py2exe
+</pre>
+
+<p>
+This should output some things on your command prompt and leave you with a "dist" and "build" directory created in the same directory of your setup.py script you just executed. Within the dist directory is your exe. Now move this exe to your starter script directory. This is because your program is looking for resources from where your starter script is located. Thus your exe will also be looking for the same paths to your resources. After this point you can delete the dist and build
+directories and test your exe.
+</p>
+
+<p>
+So if your program structure is like
+</p>
+
+<pre class="brush: python">
+MyProgram/
+    main.py
+    ...
+    resources/
+        images/
+            ...
+        fonts/
+            ...
+</pre>
+
+<p>
+If your starter script is main.py, then your exe needs to be where main.py is to look for the resources directory. 
+</p>
+
+<center>
+    <h4>
+        Troubleshooting problems
+    </h4>
+</center>
+
+<p>
+There are a lot of times you have errors or your exe just doesnt work. Normally this is only done once. Once you find a series of python, pygame, py2exe, DLLS, setup script, etc. that works you leave it be and keep using it. Every time you modify the setup.py file, you must save it and rerun python setup.py py2exe to rebuild the exe. And you should delete the dist and build directories of the previous build as to not confuse you. 
+<p>
+
+<h5>MSVCR90.dll missing</h5>
+<p>
+This means your missing the Microsoft Visual C++ 2008 Package asssociated for your python version. You can remedy this for yourself by putting this dll in your python DLL directory. An example would be C:\Python2.7\DLLs. Or add this dll with your exe script and it will load from there. <a href="https://www.microsoft.com/en-us/download/details.aspx?id=15336">MSVCR90.dll</a> and <a href="https://www.microsoft.com/en-us/download/details.aspx?id=2092">MSVCR90.dll SP1</a>. If both fail
+then google other versions of MSVCR90.dll and retry. That is not unheard of. 
+</p>
+
+<h5>ImportError: No module named _view</h5>
+<p>
+This problem is easily fixed by adding <i>import pygame._view</i> into the top of your starter script for the actual building of the exe. You can remove it afterwords. 
+</p>
+
+<!--#include virtual="../foot.shtml"-->
+</div>
+
+
+
+
+
+
+
+</body>
+</html>
