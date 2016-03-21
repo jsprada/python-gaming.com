@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+</script>
+<link rel="stylesheet" href="_static/pygame.css" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="http://python-gaming.com/pygame/docs/layout.css" />
+<!--#include virtual="../../../menu/menu.shtml"-->
+<!--#include virtual="../../../highlighter.html"-->
+
+
+</head>
+<body>
+<!--#include virtual="../nav.shtml"-->
+
+<div class="sectionwrapper">
+<br>
+
+<center>
+    <h3>
+        Python Gotcha's
+    </h3>
+</center>
+
+<p>
+Python will trip you up at some point or another. It sometimes can feel like a bug when its not. What people define as a gotcha depends on who you are and a number of other variables. One person's common sense might be anothers gotchas and vice versa. It can depend on what operating system you are using, what python version you are using, what IDE you are using, what language you learned before python, etc. 
+</p>
+<h4>
+Install the correct pygame version
+</h4>
+
+<p>
+A common mistake is to get an error when installing the incorrect pygame version for their python version. But an even more common mistake is to get a bit conflict by installing the incorrect pygame bit version for their python bit version. And your operating system bit type has little influence. For example, you can install python 32 bit on windows that is 64 bit. In this case if you install pygame 64 bit because you see you have 64 bit windows, your pygame is not going to install and/or work correctly. 
+</p>
+
+
+
+<h4>
+Different OS's are case sensitive
+</h4>
+
+<p>
+If you write a program and load images (or any file) that is named my_image.PNG and load it as my_image.png it will work in Windows. The same is not true in Linux, because Linux is case sensitive. my_image.PNG and my_image.png are two different files. 
+</p>
+
+<h4>
+Naming your scripts and directories
+</h4>
+
+<p>
+Don't name your scripts pygame.py or your directory "pygame". Your scripts will try to load your file and/or directory instead of the actual pygame. The same goes for naming your files test.py or naming your directories "test". It will conflict with the built-in test package. The same is true for every standard library and 3rd party library you installed. Don't name your scripts sys, time, etc. 
+</p>
+
+<h4>
+Forgetting __init__.py in your sub-directories
+</h4>
+
+<p>
+Python2.x requires a __init__.py file in all of your sub-directories. Python3.x it is optional. 
+</p>
+
+<h4>
+Modifying a list while iterating over it
+</h4>
+
+<pre class="brush: python">
+    for laser in self.lasers:
+        ...
+        if rm:
+            self.lasers.remove(laser)
+</pre>
+
+<p>
+This will cause an IndexError when you iterate over the loop as you have just removed an index from the list that you are looping over. A catch 22. You need to loop the list in order to remove, but you cannot remove from the list as you loop. This can be easily fixed by looping a copy of the list and removing from the actual list. All you have to do to loop a copy is add [:].
+</p>
+<pre class="brush: python">
+    for laser in self.lasers[:]:
+        ...
+        if rm:
+            self.lasers.remove(laser)
+</pre>
+
+<h4>
+Having circular module dependencies
+</h4>
+
+<p>
+In short terms....Don't have a module that imports another module, where that imports the first module. You can Google examples "python circular imports" until the cows come home. An example here is too long. A simple fix is to restruture your program.  
+</p>
+
+<!--#include virtual="../foot.shtml"-->
+</div>
+
+
+
+
+
+
+
+</body>
+</html>

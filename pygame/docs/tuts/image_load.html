@@ -248,6 +248,71 @@ So here we have the exact same code as before. We updated the image to load this
 </p>
 
 
+<a download="dice.png" href="dice.png">Download this image</a><br>
+<img src="dice.png" alt="dice.png" style="width:36px;height:216px;">
+
+<p>
+Now we are going to teach you how to load a spritesheet. Instead of loading each image one after the other we can just load a sheet of images once and cut them into frames. The pros are the spritesheets tend to be smaller files. Spritesheets load quicker as there is one disk acess rather than several. Less wasted video mem, etc. At some point or another you are going to have to use a spritesheet.
+</p>
+
+<p>
+There are two main different types of spritesheets. The one shown is uniformed. Each image is of the same size, such as a grid. This is ideal to have them this way as you can just loop through and cut the images.However sometimes images must be of different sizes and cannot be uniformed like this. In this case you must define the rectangle to cut by pixel instead for each image. 
+</p>
+
+<p>
+So we are going to start by loading the dice image. Our end result is inteded to be a list of pygame surfaces that are already loaded. So the_list[0] would be die 1, the_list[1] would be die 2, so on and so on. And by just blitting the single index would draw that die to the screen.
+</p>
+
+<pre class="brush: python">
+import pygame as pg
+
+def strip_from_sheet(sheet, start, size, columns, rows):
+    frames = []
+    for j in range(rows):
+        for i in range(columns):
+            location = (start[0]+size[0]*i, start[1]+size[1]*j)
+            frames.append(sheet.subsurface(pg.Rect(location, size)))
+    return frames
+
+pg.init()
+  
+screen = pg.display.set_mode((800,600))
+screen_rect = screen.get_rect()
+done = False
+
+sheet = pg.image.load('dice.png')
+dice = strip_from_sheet(sheet, (0,0), (36,36), 1, 6)
+
+while not done:
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT:
+            done = True
+    screen.blit(dice[0], screen_rect.center)
+    pg.display.update()
+</pre>
+
+<p>
+The strip_from_sheet function assumes that your sheet is uniformed. It loops through the rows and columns and locates each die indicated by the args, and creates a pygame.subsurface for each die. Because the sheet is uniformed, the process in which it loops through each image is like looping through a nested list. Just in this case the nested lists are single as there is only one row. So where we execute this function we give a number of arguments. the (0,0) is the first starting location. Every loop it is the topleft of the subsurface. Starting off initially, it is the topleft of the entire sheet. the (36,36) is the size of each image. You can manually locate this info by dividing the number of images across by the number of pixels the sheet is wide. This gives you the number of frames horizontally. You can do the same for getting the number of frames vertically. Another way to determine is to check the image in GIMP. GIMP is a free photo editing tool, like PhotoShop. I would always check images in GIMP that you obtain from the internet to ensure that the sheet is correctly aligned before assuming it should work. If not you can easily modify it in GIMP as well as create your sprites in GIMP. GIMP itself is complex and needs a whole other tutorial for each tool within. The next argument is the number of columns in the sheet, which is 1. And then the last argument is the number of rows, which is 6. 
+</p>
+
+<p>
+The dice variable is a list returned from strip from sheet function. Inside is a pygame surface for each die. We blit the first die i nthe main game loop. You can change this to each die by just change the index of dice being blitted. So change it to 1, and you will see die 2 draw and so on. 
+</p>
+
+<p>
+The alternative is to load the coordinates of the image. This is used for if the frames within the spritesheet are not uniformed. 
+</p>
+
+<pre class="brush: python">
+
+def strip_coords_from_sheet(sheet, coords, size):
+    frames = []
+    for coord in coords:
+        location = (coord[0]*size[0], coord[1]*size[1])
+        frames.append(sheet.subsurface(pg.Rect(location, size)))
+    return frames
+</pre>
+
 <!--#include virtual="../foot.shtml"-->
 </div>
 
