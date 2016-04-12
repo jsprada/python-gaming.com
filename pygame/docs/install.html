@@ -18,7 +18,61 @@
 <!--used to push down DISQUE (for some reason?)-->
 <table border=0 cellpadding=0 cellspacing=0 width='100%'><tr>
         <td valign=top>
+<center>
+<h3>Warning</h3>
+</center>
+<textarea readonly class="codeboxsized" rows="12">
+Make sure you download the same pygame version for your python version as well as the same pygame bit as your python bit. 64bit is amd64, 32bit is win32, python version 3.4 would be indicated as py3.4 in the pygame downlaod labels. This is the number one reason why most new installs fail. Often the latest python release will not have a pygame available for a awhile. 
+Sometimes you will have to install a slightly lower version of python to get the latest pygame, until things have been updated. This is not a big deal as minor python versions do not have much changes.   
 
+Also just because your operating system is running on 64 bit does not mean programs such as python is 64 bit. You can run 32 python on 64 bit OS, and then you need a 32 bit pygame to work. 
+</textarea>
+
+
+
+<h2>Install Pygame with Wheels (.whl files)</h2>
+<p>
+pip is included with python from Python 2.7.9+ and Python 3.4+. So if you have older than these you have to <a href="http://pip.readthedocs.org/en/stable/installing/">install</a> pip. Change &lt;FILE.whl&gt; to the path and name of the wheel for your python version that you downloaded. 
+Navigate to your python directory and execute the following command. 
+</p>
+<textarea readonly class="codeboxsized" rows="1">
+python -m pip install <FILE.whl>
+</textarea>
+<p>
+or naviagate to your python lcoation and go into Scripts directory where pip is and type
+</p>
+<textarea readonly class="codeboxsized" rows="1">
+pip install <FILE.whl>
+</textarea>
+
+<p>
+Lets assume that you did a custom installtion and installed python at the location of C:\PythonXX. This is the default location for python3.4 and lower, but since python3.5 the default location has been at C:\Users\USERNAME\AppData\Local\Programs\Python\PythonXX-XX
+</p>
+
+<p>
+
+</p>
+
+<textarea readonly class="codeboxsized" rows="3">
+c:\Python35-32\Scripts>
+c:\Python35-32\Scripts>pip install C:\Users\YOUR_USERNAME\Downloads\pygame-1.9.2a0-cp35-none-win32.whl
+</textarea>
+
+<p>
+open C:\Python35-32\python.exe and type
+</p>
+
+<textarea readonly class="codeboxsized" rows="1">
+import pygame
+</textarea>
+
+<p>
+If you get a >>> prompt with no errors then you installed pygame correctly and it is working. If you get errors you most likely downloaded the incorrect wheel file for you python installation. If you still have problems post your error and python info  on <a href="https://www.reddit.com/r/pygame">reddit</a>
+</p>
+
+<p>
+If you are really having trouble with pip. You can just simply copy the pygame files over to your python installation. If you downloaded the incorrect wheel this will also fail. Since windows cannot extract a wheel file all you need to do is change the wheel extension to zip instead. Extract it. It will extract 3 directories, pygame, pygame***.data, and pygame***.dist-info. The stars are where the version and bit type are. Go into pygame***.data directory and copy headers directory over to your python's include directory. So in the end, you should have C:\PythonXX\include\headers. Now rename that headers directory to "pygame". (C:              \PythonXX\include\pygame) Now go back to you extracted directories from the wheel. Copy both the pygame and pygame***.dist-info directories over to pythons's Lib/site-packages directory. So these two directories will be placed into C:\PythonXX\Lib\site-packages\. (C:\PythonXX\Lib\site-packages\pygame and C:\PythonXX\Lib\site-packages\pygame***.dist-info) Now attempt to import pygame and see if was installed correctly.
+</p>
 
 <h2>Install latest Pygame with Mercurial</h2>
 <p>
@@ -71,34 +125,6 @@ This method installs the latest bitbucket repo, including its last merge. So it 
 If this fails, you can try to <a href="https://bitbucket.org/pygame/pygame/downloads">download a release</a> instead. This includes msi easy installers for Windows and zips. 
 Extract the zip and change directory into it, and execute setup.py install command as said before. 
 <br><br>
-<b>Warning</b><br>
-Make sure you download the same pygame version for your python version as well as the same pygame bit as your python bit. 64bit is amd64, 32bit is win32, python version 3.4 would be indicated as py3.4 in the pygame downlaod labels. This is the number one reason why most new installs fail. Often the latest python release will not have a pygame available for a awhile. 
-Sometimes you will have to install a slightly lower version of python to get the latest pygame, until things have been updated. This is not a big deal as minor python versions do not have much changes.   
-<br>
-<br>
-Also just because your operating system is running on 64 bit does not mean programs such as python is 64 bit. You can run 32 python on 64 bit OS, and then you need a 32 bit pygame to work. 
-
-<h2>Install Pygame with Wheels (.whl files)</h2>
-<p>
-pip is included with python from Python 2.7.9+ and Python 3.4+. So if you have older than these you have to <a href="http://pip.readthedocs.org/en/stable/installing/">install</a> pip. Change &lt;FILE.whl&gt; to the path and name of the wheel for your python version that you downloaded. 
-Navigate to your python directory and execute the following command. 
-</p>
-<textarea readonly class="codeboxsized" rows="1">
-    python -m pip install <FILE.whl>
-</textarea>
-
-
-<h2>Install Pygame with setup.py file</h2>
-<p>
-Unzip pygame and change directory to newly created pygame directory. Execute the following command to install. 
-</p>
-<textarea readonly class="codeboxsized" rows="1">
-    python setup.py install
-</textarea>
-
-
-
-
 <h2>Pygame Installation</h2>
 <div class="h2">
 

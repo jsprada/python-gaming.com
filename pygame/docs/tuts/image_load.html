@@ -296,9 +296,25 @@ The strip_from_sheet function assumes that your sheet is uniformed. It loops thr
 </p>
 
 <p>
-The dice variable is a list returned from strip from sheet function. Inside is a pygame surface for each die. We blit the first die i nthe main game loop. You can change this to each die by just change the index of dice being blitted. So change it to 1, and you will see die 2 draw and so on. 
+The dice variable is a list returned from strip from sheet function. Inside is a pygame surface for each die. We blit the first die in the main game loop. You can change this to each die by just change the index of dice being blitted. So change it to 1, and you will see die 2 draw and so on. 
 </p>
 
+<p>
+You can easily load 1/2 of an image or an image by thirds in the same manner. Just pretend that the single image is a spritesheet with two images, one on the left, and one on the right. Instead of giving the individual frames sizes to the same funcition, you would just get the size of the image, and divide it by 2 to get half of the image
+</p>
+
+<pre class="brush: python">
+size = sheet.get_size()
+frames = strip_from_sheet(sheet, (0,0), (size[0]/2,size[1]), 2,1)
+</pre>
+
+<p>
+This will get the size of the spritesheet. The second line is similar to the previous call to strip_from_sheet. However we just give the dimensions of the image, dividing the width by 2 to get half. And give it 2 column (two halfs) and 1 row. We could also do this in thirds and across horizontally by dividing by 3 instead and changing columns to 3. Or we could flip these and do the top and bottom half by doing...
+</p>
+
+<pre class="brush: python">
+frames = strip_from_sheet(sheet, (0,0), (size[0],size[1]/2), 1,2)
+</pre>
 <p>
 The alternative is to load the coordinates of the image. This is used for if the frames within the spritesheet are not uniformed. 
 </p>
